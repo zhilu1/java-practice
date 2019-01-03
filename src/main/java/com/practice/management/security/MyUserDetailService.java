@@ -47,7 +47,7 @@ public class MyUserDetailService implements UserDetailsService { //自定义User
             }
             return new User(user.getUsername(), passwordEncoder.encode(user.getPassword()), grantedAuthorities);
         } else {
-            throw new UsernameNotFoundException("admin: " + username + " do not exist!");
+            throw new UsernameNotFoundException("user: " + username + " do not exist!");
         }
     }
 
