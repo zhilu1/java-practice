@@ -4,7 +4,7 @@
 <head>
     <meta content="text/html;charset=UTF-8"/>
     <title sec:authentication="name"></title>
-    <link rel="stylesheet" type="text/css" th:href="@{plugins/bootstrap/dist/css/bootstrap.min.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{Bootstrap/css/bootstrap.min.css}" />
     <style type="text/css">
         body {
             padding-top: 50px;
@@ -36,11 +36,14 @@
     <div class="starter-template">
         <h1 th:text="${msg}"></h1>
 
-        <div sec:authorize="hasRole('ROLE_HOME')"> <!-- 用户类型为ROLE_ADMIN 显示 -->
+        <div sec:authorize="hasAuthority('ROLE_HOME')"> <!-- 用户类型为ROLE_ADMIN 显示 -->
             <p class="bg-info" th:text="${msg}">你好</p>
         </div>
-        <div sec:authorize="hasRole('ROLE_ADMIN')"> <!-- 用户类型为ROLE_ADMIN 显示 -->
+        <div sec:authorize="hasAuthority('ROLE_ADMIN')"> <!-- 用户类型为ROLE_ADMIN 显示 -->
             <p class="bg-info">恭喜您,您有 ROLE_ADMIN 权限 </p>
+        </div>
+        <div sec:authorize="hasAuthority('ROLE_USER')"> <!-- 用户类型为ROLE_USER 显示 -->
+            <p class="bg-info">恭喜您,您有 ROLE_USER 权限 </p>
         </div>
 
         <form th:action="@{/logout}" method="post">

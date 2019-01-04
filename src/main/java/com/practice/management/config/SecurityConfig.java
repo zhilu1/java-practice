@@ -2,9 +2,7 @@
 
 package com.practice.management.config;
 
-import com.practice.management.security.MyFilterSecurityInterceptor;
-import com.practice.management.security.MyPasswordEncoder;
-import com.practice.management.security.MyUserDetailService;
+import com.practice.management.security.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,6 +22,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private MyFilterSecurityInterceptor myFilterSecurityInterceptor;
 
+    @Autowired
+    private MyAuthenticationSuccessHandler myAuthenticationSuccessHandler;
+    @Autowired
+    private MyAuthenticationFailureHandler myAuthenticationFailureHandler;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
@@ -32,14 +35,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .successForwardUrl("/")
-                .failureUrl("/login?error")
+                .successHandler(myAuthenticationSuccessHandler)
+                .failureHandler(myAuthenticationFailureHandler)
+//                .successForwardUrl("/")
                 .permitAll() //登录页面用户任意访问
                 .and()
                 .logout().permitAll()
                 .and()
+                .csrf().disable().exceptionHandling()
+                .and()
                 .headers()
-                .frameOptions().sameOrigin(); ; //注销行为任意访问
+                .frameOptions().sameOrigin(); //注销行为任意访问
         http.addFilterBefore(myFilterSecurityInterceptor, FilterSecurityInterceptor.class);
     }
 
