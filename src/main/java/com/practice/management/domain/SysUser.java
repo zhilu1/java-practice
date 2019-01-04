@@ -1,8 +1,9 @@
 package com.practice.management.domain;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class SysUser {
+public class SysUser implements Serializable {
     private Integer id;
     private String username; // 工号作为用户名
     private String password;

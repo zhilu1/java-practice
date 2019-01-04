@@ -1,8 +1,9 @@
 package com.practice.management.domain;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class SysRole {
+public class SysRole implements Serializable {
     private Integer id;
     private String name;
 

@@ -1,6 +1,8 @@
 package com.practice.management.domain;
 
-public class SysPermission {
+import java.io.Serializable;
+
+public class SysPermission implements Serializable {
     private Integer id;
     private String name; //权限名
     private String description;
