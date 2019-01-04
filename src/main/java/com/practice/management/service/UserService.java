@@ -15,6 +15,8 @@ public interface UserService {
 
     UserDTO updateUser(UserDTO user);
 
+    boolean createUser(UserDTO user);
+
     int deleteUserById(Integer id);
 
     List<PermissionDTO> getPermissionsByUserId(Integer id);
