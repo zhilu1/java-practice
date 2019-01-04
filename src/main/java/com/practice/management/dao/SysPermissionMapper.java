@@ -7,7 +7,18 @@ import java.util.List;
 
 
 public interface SysPermissionMapper {
-    List<SysPermission> findAll(); //get all types of permissions
 
-    List<SysPermission> findByUserId(Integer id);
+    List<SysPermission> getAll(); //get all types of permissions
+
+    List<SysPermission> getByUserId(@Param("uid") Integer uid);
+
+    List<SysPermission> getByRoleId(@Param("rid") Integer rid);
+
+    int addPermission(@Param("permission") SysPermission permission);
+
+    int updatePermission(@Param("permission") SysPermission permission);
+
+    SysPermission deletePermission(@Param("id") Integer id);
+
+
 }

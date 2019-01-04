@@ -8,7 +8,6 @@ public class SysUser {
     private String password;
     private String name;
     private String department;
-    private List<SysRole> roles;
 
     public Integer getId() {
         return id;
@@ -48,13 +47,5 @@ public class SysUser {
 
     public void setDepartment(String department) {
         this.department = department;
-    }
-
-    public List<SysRole> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<SysRole> roles) {
-        this.roles = roles;
     }
 }

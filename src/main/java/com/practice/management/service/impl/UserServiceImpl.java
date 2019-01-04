@@ -1,7 +1,9 @@
 package com.practice.management.service.impl;
 
+import com.practice.management.dao.SysPermissionMapper;
 import com.practice.management.dao.SysUserMapper;
 import com.practice.management.domain.SysUser;
+import com.practice.management.dto.PermissionDTO;
 import com.practice.management.dto.UserDTO;
 import com.practice.management.service.UserService;
 import org.springframework.beans.BeanUtils;
@@ -15,6 +17,10 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     SysUserMapper userDao;
+
+    @Autowired
+    SysPermissionMapper permissionDao;
+
 
     @Override
     public UserDTO getUserByUserName(String userName) {
@@ -30,8 +36,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDTO> getAll() {
+    public UserDTO getUserById(Integer id) {
+        UserDTO dto = new UserDTO();
+        SysUser user = userDao.getById(id);
+        if(user != null){
+            BeanUtils.copyProperties(user, dto);
+            return dto;
+        }
+        else{
+            throw new IllegalArgumentException("用户ID不存在");
+        }
+    }
 
+    @Override
+    public List<UserDTO> getAll() {
         return null;
     }
 
@@ -43,5 +61,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public int deleteUserById(Integer id) {
         return 0;
+    }
+
+    @Override
+    public List<PermissionDTO> getPermissionsByUserId(Integer id) {
+        UserDTO user = getUserById(id);
+        permissionDao.getByUserId(id);
+        return null;
     }
 }

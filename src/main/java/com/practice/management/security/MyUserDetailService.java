@@ -34,7 +34,7 @@ public class MyUserDetailService implements UserDetailsService { //自定义User
     public UserDetails loadUserByUsername(String username) {
         SysUser user = userDao.getByUserName(username);
         if (user != null) {
-            List<SysPermission> permissions = permissionDao.findByUserId(user.getId());
+            List<SysPermission> permissions = permissionDao.getByUserId(user.getId());
             List<GrantedAuthority> grantedAuthorities = new ArrayList <>();
             for (SysPermission permission : permissions) {
                 if (permission != null && permission.getName()!=null) {

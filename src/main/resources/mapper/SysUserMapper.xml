@@ -4,7 +4,9 @@
 
 
     <select id="getByUserName" parameterType="String" resultType="com.practice.management.domain.SysUser">
-        SELECT * FROM sys_user WHERE username=#{username};
+        SELECT *
+        FROM sys_user
+        WHERE username=#{username};
     </select>
 
     <select id="getById" parameterType="Integer" resultType="com.practice.management.domain.SysUser">
@@ -17,13 +19,29 @@
 
     <update id="updateUser" parameterType="com.practice.management.domain.SysUser">
         UPDATE sys_user u
-        SET  u.name = #{user.name} AND u.department = #{user.department} AND u.department = #{user.department} AND u.password = #{user.password}
-        WHERE u.id = #{user.id}
+        SET  u.name = #{name} AND u.department = #{department} AND u.department = #{department} AND u.password = #{password}
+        WHERE u.id = #{id}
     </update>
 
-    <delete id="deleteById">
+    <insert id="createUser" parameterType="com.practice.management.domain.SysUser">
+    	insert into sys_user(id,username,password,name,department)
+    	values(#{id,jdbcType=INTEGER},#{username,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},
+    		#{department,jdbcType=VARCHAR})
+    </insert>
+
+    <delete id="deleteById" parameterType="Integer">
         delete sys_user, sys_role_user from sys_user, sys_role_user
         where sys_user.id = #{id} and sys_role_user.id = #{id}
+    </delete>
+
+    <insert id="addRoleToUser" parameterType="Integer">
+    	insert into sys_role_user(user_id, role_id)
+    	values(#{rid,jdbcType=INTEGER},#{uid,jdbcType=INTEGER})
+    </insert>
+
+    <delete id="removeRoleFromUser" parameterType="Integer">
+        delete sys_role_user from sys_role_user
+        where role_id = #{rid} and user_id = #{id}
     </delete>
 
 </mapper>

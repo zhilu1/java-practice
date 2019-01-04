@@ -31,7 +31,7 @@ public class MyInvocationSecurityMetadataSourceService  implements
         map = new HashMap<>();
         Collection<ConfigAttribute> array;
         ConfigAttribute cfg;
-        List<SysPermission> permissions = permissionDao.findAll();
+        List<SysPermission> permissions = permissionDao.getAll();
         for(SysPermission permission : permissions) {
             array = new ArrayList<>();
             cfg = new SecurityConfig(permission.getName());
