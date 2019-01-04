@@ -5,7 +5,6 @@ import com.practice.management.dao.SysUserMapper;
 import com.practice.management.domain.SysPermission;
 import com.practice.management.domain.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -33,7 +32,7 @@ public class MyUserDetailService implements UserDetailsService { //自定义User
     //返回 user和user拥有的权限功能 by username
     @Override
     public UserDetails loadUserByUsername(String username) {
-        SysUser user = userDao.findByUserName(username);
+        SysUser user = userDao.getByUserName(username);
         if (user != null) {
             List<SysPermission> permissions = permissionDao.findByUserId(user.getId());
             List<GrantedAuthority> grantedAuthorities = new ArrayList <>();

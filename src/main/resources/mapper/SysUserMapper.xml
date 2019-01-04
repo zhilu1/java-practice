@@ -3,8 +3,27 @@
 <mapper namespace="com.practice.management.dao.SysUserMapper">
 
 
-    <select id="findByUserName" parameterType="String" resultType="com.practice.management.domain.SysUser">
+    <select id="getByUserName" parameterType="String" resultType="com.practice.management.domain.SysUser">
         SELECT * FROM sys_user WHERE username=#{username};
     </select>
+
+    <select id="getById" parameterType="Integer" resultType="com.practice.management.domain.SysUser">
+        SELECT * FROM sys_user WHERE id=#{id};
+    </select>
+
+    <select id="getAll" resultType="com.practice.management.domain.SysUser">
+        SELECT * FROM sys_user;
+    </select>
+
+    <update id="updateUser" parameterType="com.practice.management.domain.SysUser">
+        UPDATE sys_user u
+        SET  u.name = #{user.name} AND u.department = #{user.department} AND u.department = #{user.department} AND u.password = #{user.password}
+        WHERE u.id = #{user.id}
+    </update>
+
+    <delete id="deleteById">
+        delete sys_user, sys_role_user from sys_user, sys_role_user
+        where sys_user.id = #{id} and sys_role_user.id = #{id}
+    </delete>
 
 </mapper>

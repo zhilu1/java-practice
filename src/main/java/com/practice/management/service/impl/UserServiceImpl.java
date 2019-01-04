@@ -6,10 +6,8 @@ import com.practice.management.dto.UserDTO;
 import com.practice.management.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 public class UserServiceImpl implements UserService {
     @Autowired
@@ -18,7 +16,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO getUserByUserName(String userName) {
         UserDTO dto = new UserDTO();
-        SysUser user = userDao.findByUserName(userName);
+        SysUser user = userDao.getByUserName(userName);
         if(user != null){
             BeanUtils.copyProperties(user, dto);
             return dto;
@@ -30,6 +28,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDTO> getAll() {
+
         return null;
     }
 
