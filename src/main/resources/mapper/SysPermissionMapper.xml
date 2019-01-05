@@ -16,4 +16,8 @@
         where u.id=#{uid}
   </select>
 
+    <select id="getById" parameterType="Integer" resultType="com.practice.management.domain.SysPermission">
+        SELECT * FROM sys_permission WHERE id=#{id};
+    </select>
+
 </mapper>

@@ -25,8 +25,8 @@
 
     <insert id="createUser" parameterType="com.practice.management.domain.SysUser">
     	insert into sys_user(id,username,password,name,department)
-    	values(#{id,jdbcType=INTEGER},#{username,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},
-    		#{department,jdbcType=VARCHAR})
+    	values(#{user.id,jdbcType=INTEGER},#{user.username,jdbcType=VARCHAR},#{user.password,jdbcType=VARCHAR},#{user.name,jdbcType=VARCHAR},
+    		#{user.department,jdbcType=VARCHAR})
     </insert>
 
     <delete id="deleteById" parameterType="Integer">
@@ -35,13 +35,13 @@
     </delete>
 
     <insert id="addRoleToUser" parameterType="Integer">
-    	insert into sys_role_user(user_id, role_id)
+    	insert into sys_role_user(role_id, user_id)
     	values(#{rid,jdbcType=INTEGER},#{uid,jdbcType=INTEGER})
     </insert>
 
     <delete id="removeRoleFromUser" parameterType="Integer">
         delete sys_role_user from sys_role_user
-        where role_id = #{rid} and user_id = #{id}
+        where role_id = #{rid} and user_id = #{uid}
     </delete>
 
 </mapper>

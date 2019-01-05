@@ -13,11 +13,15 @@ public interface UserService {
 
     List<UserDTO> getAll();
 
-    UserDTO updateUser(UserDTO user);
+    boolean updateUser(UserDTO user);
 
     boolean createUser(UserDTO user);
 
     int deleteUserById(Integer id);
 
     List<PermissionDTO> getPermissionsByUserId(Integer id);
+
+    int addRoleToUser(Integer userId, Integer roleId);
+
+    void clearRoles(Integer userId);
 }

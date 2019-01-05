@@ -3,7 +3,7 @@ package com.practice.management.controller;
 import java.io.Serializable;
 
 public class Response<T> implements Serializable {
-    String errMsg;
+    String errMsg = "";
     T wrapper;
     public Response() {}
     public Response(T wrapper) {

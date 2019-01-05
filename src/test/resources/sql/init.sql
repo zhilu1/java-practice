@@ -53,5 +53,5 @@ insert into SYS_ROLE(id,name) values(2,'ROLE_USER');
 insert into SYS_ROLE_USER(user_id,role_id) values(1,1);
 insert into SYS_ROLE_USER(user_id,role_id) values(2,2);
 
-INSERT INTO `Sys_permission` VALUES ('1', 'ROLE_HOME', 'home', '/', null), ('2', 'ROLE_ADMIN', 'ABel', '/admin', null);
-INSERT INTO `Sys_permission_role` VALUES ('1', '1', '1'), ('2', '1', '2'), ('3', '2', '1');
+INSERT INTO `Sys_permission` VALUES ('1', 'ROLE_HOME', 'home', '/', null), ('2', 'ROLE_ADMIN', 'ABel', '/admin', null), ('3', 'ROLE_USEROP', 'user operations', '/authority', null);
+INSERT INTO `Sys_permission_role` VALUES ('1', '1', '1'), ('2', '1', '2'), ('3', '2', '1') , ('4', '1', '3');

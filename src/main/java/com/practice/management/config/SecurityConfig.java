@@ -21,7 +21,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private MyUserDetailService myUserDetailService;
     @Autowired
     private MyFilterSecurityInterceptor myFilterSecurityInterceptor;
-
+    @Autowired
+    AuthenticationAccessDeniedHandler authenticationAccessDeniedHandler;
     @Autowired
     private MyAuthenticationSuccessHandler myAuthenticationSuccessHandler;
     @Autowired
@@ -35,14 +36,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .successHandler(myAuthenticationSuccessHandler)
-                .failureHandler(myAuthenticationFailureHandler)
-//                .successForwardUrl("/")
+//                .successHandler(myAuthenticationSuccessHandler)
+//                .failureHandler(myAuthenticationFailureHandler)
+                .successForwardUrl("/")
+                .failureForwardUrl("/login?error")
                 .permitAll() //登录页面用户任意访问
                 .and()
                 .logout().permitAll()
                 .and()
-                .csrf().disable().exceptionHandling()
+                .csrf().disable().exceptionHandling().accessDeniedHandler(authenticationAccessDeniedHandler)
                 .and()
                 .headers()
                 .frameOptions().sameOrigin(); //注销行为任意访问

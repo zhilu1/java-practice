@@ -12,6 +12,9 @@ public interface SysPermissionMapper {
 
     List<SysPermission> getByUserId(@Param("uid") Integer uid);
 
+    SysPermission getById(@Param("id") Integer id);
+
+// Followings NOT yet implmented
     List<SysPermission> getByRoleId(@Param("rid") Integer rid);
 
     int addPermission(@Param("permission") SysPermission permission);
@@ -19,6 +22,4 @@ public interface SysPermissionMapper {
     int updatePermission(@Param("permission") SysPermission permission);
 
     SysPermission deletePermission(@Param("id") Integer id);
-
-
 }
