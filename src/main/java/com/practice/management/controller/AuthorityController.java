@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -24,18 +25,20 @@ public class AuthorityController {
     @Autowired
     private RoleService roleService;
 
-//    @RequestMapping("/getAllUsers")
-//    public Response<UserDTO> getAllUsers() {
-//        try{
-//            UserDTO dto = userService.getUserByUserName(username);
-//            return new Response<UserDTO>(dto);
-//        }
-//        catch (Exception e){
-//            Response<UserDTO> r = new Response<UserDTO>();
-//            r.setErrMsg(e.getMessage());
-//            return r;
-//        }
-//    }
+    @RequestMapping("/getAllUsers")
+    public ModelAndView getAllUsers() {
+        ModelAndView mv = new ModelAndView();
+        try{
+            mv.setViewName("admin");
+            List<UserDTO> dtos= userService.getAll();
+            mv.addObject("users",  dtos);
+            return mv;
+        }
+        catch (Exception e){
+            mv.addObject("error", e.getMessage());
+            return mv;
+        }
+    }
 
     @RequestMapping("/getUserInfoByName")
     public Response<UserDTO> getUserInfo(String username) {
