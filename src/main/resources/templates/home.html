@@ -27,7 +27,7 @@
                     <li><a th:href="@{/}"> 首页 </a></li>
 
                     <li sec:authorize="hasRole('ROLE_ADMIN')"> <!-- 用户权限为ROLE_ADMIN 显示 -->
-                        <a th:href="@{/admin}"> 管理用户 </a></li>
+                        <a th:href="@{/authority/getAllUsers}"> 管理用户 </a></li>
                     </li>
 
                     <form th:action="@{/logout}" method="post">

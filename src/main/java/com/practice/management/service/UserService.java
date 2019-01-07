@@ -1,25 +1,25 @@
 package com.practice.management.service;
 
-import com.practice.management.dto.PermissionDTO;
-import com.practice.management.dto.UserDTO;
+import com.practice.management.domain.SysPermission;
+import com.practice.management.domain.SysUser;
+import com.practice.management.domain.SysUser;
 
 import java.util.List;
 
 public interface UserService {
+    SysUser getUserByUserName(String userName);
 
-    UserDTO getUserByUserName(String userName);
+    SysUser getUserById(Integer id);
 
-    UserDTO getUserById(Integer id);
+    List<SysUser> getAll();
 
-    List<UserDTO> getAll();
+    boolean updateUser(SysUser user);
 
-    boolean updateUser(UserDTO user);
-
-    boolean createUser(UserDTO user);
+    boolean createUser(SysUser user);
 
     int deleteUserById(Integer id);
 
-    List<PermissionDTO> getPermissionsByUserId(Integer id);
+    List<SysPermission> getPermissionsByUserId(Integer id);
 
     int addRoleToUser(Integer userId, Integer roleId);
 

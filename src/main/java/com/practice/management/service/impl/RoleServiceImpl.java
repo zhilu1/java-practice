@@ -4,10 +4,8 @@ import com.practice.management.dao.SysPermissionMapper;
 import com.practice.management.dao.SysRoleMapper;
 import com.practice.management.domain.SysPermission;
 import com.practice.management.domain.SysRole;
-import com.practice.management.dto.RoleDTO;
 import com.practice.management.service.RoleService;
 import org.assertj.core.util.Preconditions;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,12 +20,10 @@ public class RoleServiceImpl implements RoleService {
     SysPermissionMapper permissionDao;
 
     @Override
-    public RoleDTO getRoleById(Integer id) {
-        RoleDTO dto = new RoleDTO();
+    public SysRole getRoleById(Integer id) {
         SysRole role = roleDao.getById(id);
         Preconditions.checkNotNull(role, "该角色不存在");
-        BeanUtils.copyProperties(role, dto);
-        return dto;
+        return role;
     }
 
     @Override
@@ -37,6 +33,11 @@ public class RoleServiceImpl implements RoleService {
         for (SysPermission permission: permissions) {
             roleDao.removePermissionFromRole(permission.getId(), roleId);
         }
+    }
+
+    @Override
+    public List<SysRole> getAll() {
+        return roleDao.getAll();
     }
 
     @Override

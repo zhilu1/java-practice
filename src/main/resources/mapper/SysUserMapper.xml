@@ -1,20 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.practice.management.dao.SysUserMapper">
+    <resultMap type="com.practice.management.domain.SysUser" id="userMap">
+        <id column="uid" property="id" />
+        <result column="uname" property="name" />
+        <result column="username" property="username" />
+        <result column="password" property="password" />
+        <result column="department" property="department" />
+        <!-- 一对多的关系 -->
+        <!-- property: 指的是集合属性的值, ofType：指的是集合中元素的类型 -->
+        <collection property="roles" ofType="com.practice.management.domain.SysRole" javaType="List">
+            <id column="rid" property="id" />
+            <result column="rname" property="name" />
+        </collection>
+    </resultMap>
 
 
-    <select id="getByUserName" parameterType="String" resultType="com.practice.management.domain.SysUser">
-        SELECT *
-        FROM sys_user
-        WHERE username=#{username};
+    <select id="getByUserName" parameterType="String" resultMap="userMap">
+        SELECT u.*, u.id uid, u.name uname, r.id rid, r.name rname
+        FROM sys_user u, sys_role r, sys_role_user sru
+        WHERE username=#{username} and sru.role_id = r.id and sru.user_id = u.id;
     </select>
 
-    <select id="getById" parameterType="Integer" resultType="com.practice.management.domain.SysUser">
-        SELECT * FROM sys_user WHERE id=#{id};
+    <select id="getById" parameterType="Integer" resultMap="userMap">
+        SELECT u.*, u.id uid, u.name uname, r.id rid, r.name rname
+        FROM sys_user u, sys_role r, sys_role_user sru
+        WHERE u.id=#{id} and sru.role_id = r.id and sru.user_id = u.id;
     </select>
 
-    <select id="getAll" resultType="com.practice.management.domain.SysUser">
-        SELECT * FROM sys_user;
+    <select id="getAll" resultMap="userMap">
+        SELECT u.*, u.id uid, u.name uname, r.id rid, r.name rname
+        FROM sys_user u, sys_role r, sys_role_user sru
+        WHERE sru.role_id = r.id and sru.user_id = u.id;
     </select>
 
     <update id="updateUser" parameterType="com.practice.management.domain.SysUser">

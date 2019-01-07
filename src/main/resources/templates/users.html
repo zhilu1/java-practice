@@ -19,12 +19,9 @@
                 <li><a th:href="@{/}"> 首页 </a></li>
 
                 <li sec:authorize="hasRole('ROLE_ADMIN')"> <!-- 用户权限为ROLE_ADMIN 显示 -->
-                    <a th:href="@{/admin}"> 管理用户 </a>
+                    <a th:href="@{/authority/getAllUsers}"> 管理用户 </a>
                 </li>
 
-                <li sec:authorize="hasRole('ROLE_ADMIN')"> <!-- 用户权限为ROLE_ADMIN 显示 -->
-                    <a th:href="@{/admin}"> 管理用户 </a>
-                </li>
                 <form th:action="@{/logout}" method="post">
                     <input type="submit" class="btn btn-primary" value="注销"/>
                 </form>
@@ -34,14 +31,37 @@
 </nav>
 <div class="panel panel-default">
     <!-- Default panel contents -->
-    <div class="panel-heading">Panel heading</div>
+    <div class="panel-heading">用户管理</div>
     <div class="panel-body">
-        <p>...</p>
+        <p>用户列表</p>
     </div>
 
     <!-- Table -->
     <table class="table">
-        ...
+        <tr>
+            <td>用户名</td>
+            <td>姓名</td>
+            <td>工号</td>
+            <td>部门</td>
+            <td>状态</td>
+            <td>修改</td>
+            <td>删除</td>
+        </tr>
+        <tr th:each="user: ${users}">
+            <td th:text="${user.username}">未确认</td>
+            <td th:text="${user.name}">未确认</td>
+            <td th:text="${user.id}">未确认</td>
+            <td th:text="${user.department}">未确认</td>
+            <td>
+                <ul >
+                    <li th:each="role: ${user.roles}">
+                        <span th:text="${role.name}"></span>
+                    </li>
+                </ul>
+            </td>
+            <td><a th:href="@{/authority/getUserInfoByName(username=${user.username})}">修改</a></td>
+            <td>删除</td>
+        </tr>
     </table>
 </div>
 </body>

@@ -7,8 +7,6 @@ import com.practice.management.dao.SysUserMapper;
 import com.practice.management.domain.SysPermission;
 import com.practice.management.domain.SysRole;
 import com.practice.management.domain.SysUser;
-import com.practice.management.dto.PermissionDTO;
-import com.practice.management.dto.UserDTO;
 import com.practice.management.service.UserService;
 import org.assertj.core.util.Preconditions;
 import org.springframework.beans.BeanUtils;
@@ -31,12 +29,10 @@ public class UserServiceImpl implements UserService {
     SysPermissionMapper permissionDao;
 
     @Override
-    public UserDTO getUserByUserName(String userName) {
-        UserDTO dto = new UserDTO();
+    public SysUser getUserByUserName(String userName) {
         SysUser user = userDao.getByUserName(userName);
         if(user != null){
-            BeanUtils.copyProperties(user, dto);
-            return dto;
+            return user;
         }
         else{
             throw new IllegalArgumentException("用户名不存在");
@@ -44,12 +40,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO getUserById(Integer id) {
-        UserDTO dto = new UserDTO();
+    public SysUser getUserById(Integer id) {
         SysUser user = userDao.getById(id);
         if(user != null){
-            BeanUtils.copyProperties(user, dto);
-            return dto;
+            return user;
         }
         else{
             throw new IllegalArgumentException("用户ID不存在");
@@ -57,26 +51,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDTO> getAll() {
-        return null;
+    public List<SysUser> getAll() {
+        List<SysUser> users = userDao.getAll();
+        return users;
     }
 
     @Override
-    public boolean updateUser(UserDTO user) {
+    public boolean updateUser(SysUser user) {
         Preconditions.checkNotNull(user, "入参为空");
         Preconditions.checkNotNull(userDao.getById(user.getId()), "用户不存在");
         Preconditions.checkNotNull(userDao.getByUserName(user.getUsername()), "用户不存在");
-        SysUser bean = new SysUser();
-        BeanUtils.copyProperties(user,bean);
 //        SysUser oldUser = userDao.getById(user.getId()); 复制非空
-        if(userDao.updateUser(bean) >= 0){
+        if(userDao.updateUser(user) >= 0){
             return true;
         }
         return false;
     }
 
     @Override
-    public boolean createUser(UserDTO user) {
+    public boolean createUser(SysUser user) {
         Preconditions.checkNotNull(user, "入参为空");
         Preconditions.checkArgument(!StringUtil.isEmpty(user.getUsername()), "账户为空");
         Preconditions.checkArgument(!StringUtil.isEmpty(user.getName()), "用户姓名为空");
@@ -84,9 +77,7 @@ public class UserServiceImpl implements UserService {
         Preconditions.checkArgument(!StringUtil.isEmpty(user.getDepartment()), "用户所属部门为空");
         Preconditions.checkArgument(userDao.getById(user.getId()) != null, "用户ID已存在");
         Preconditions.checkArgument(userDao.getByUserName(user.getUsername()) != null, "账户名已存在");
-        SysUser bean = new SysUser();
-        BeanUtils.copyProperties(user,bean);
-        int success = userDao.createUser(bean);
+        int success = userDao.createUser(user);
         if(success > 0){
             return true;
         }
@@ -101,16 +92,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<PermissionDTO> getPermissionsByUserId(Integer id) {
-        UserDTO user = getUserById(id);
+    public List<SysPermission> getPermissionsByUserId(Integer id) {
+        SysUser user = getUserById(id);
         List<SysPermission> permissions = permissionDao.getByUserId(id);
-        List<PermissionDTO> dtos = new ArrayList<>();
-        for (SysPermission pem: permissions) {
-            PermissionDTO dto = new PermissionDTO();
-            BeanUtils.copyProperties(pem, dto);
-            dtos.add(dto);
-        }
-        return dtos;
+        return permissions;
     }
 
     @Override

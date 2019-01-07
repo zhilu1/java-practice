@@ -1,9 +1,7 @@
 package com.practice.management.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Controller
@@ -22,6 +20,6 @@ public class RouteController {
 
     @RequestMapping("/admin")
     public String admin(){
-        return "admin";
+        return "users";
     }
 }
