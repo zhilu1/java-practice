@@ -7,12 +7,13 @@ import com.practice.management.dao.SysUserMapper;
 import com.practice.management.domain.SysPermission;
 import com.practice.management.domain.SysRole;
 import com.practice.management.domain.SysUser;
+import com.practice.management.domain.forms.UserForm;
+import com.practice.management.service.RoleService;
 import com.practice.management.service.UserService;
 import org.assertj.core.util.Preconditions;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +28,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     SysPermissionMapper permissionDao;
+
+    @Autowired
+    RoleService roleService;
 
     @Override
     public SysUser getUserByUserName(String userName) {
@@ -62,7 +66,12 @@ public class UserServiceImpl implements UserService {
         Preconditions.checkNotNull(userDao.getById(user.getId()), "用户不存在");
         Preconditions.checkNotNull(userDao.getByUserName(user.getUsername()), "用户不存在");
 //        SysUser oldUser = userDao.getById(user.getId()); 复制非空
+
         if(userDao.updateUser(user) >= 0){
+            userDao.clearAllRolesOfUser(user.getId());
+            for (SysRole role: user.getRoles()) {
+                userDao.addRoleToUser(role.getId(), user.getId());
+            }
             return true;
         }
         return false;
@@ -75,7 +84,6 @@ public class UserServiceImpl implements UserService {
         Preconditions.checkArgument(!StringUtil.isEmpty(user.getName()), "用户姓名为空");
         Preconditions.checkArgument(!StringUtil.isEmpty(user.getPassword()), "用户密码为空");
         Preconditions.checkArgument(!StringUtil.isEmpty(user.getDepartment()), "用户所属部门为空");
-        Preconditions.checkArgument(userDao.getById(user.getId()) != null, "用户ID已存在");
         Preconditions.checkArgument(userDao.getByUserName(user.getUsername()) != null, "账户名已存在");
         int success = userDao.createUser(user);
         if(success > 0){
@@ -87,8 +95,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int deleteUserById(Integer id) {
-        return 0;
+    public int deleteUserByUsername(String username) {
+        SysUser user = userDao.getByUserName(username);
+        Preconditions.checkNotNull(user, "用户不存在");
+        if (userDao.deleteById(user.getId()) >= 0) {
+            return 1;
+        } else {
+            return 0;
+        }
+
     }
 
     @Override
@@ -106,11 +121,36 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void clearRoles(Integer userId) {
-        Preconditions.checkNotNull(userDao.getById(userId),"该user不存在");
-        List<SysRole> roles = roleDao.getByUserId(userId);
-        for (SysRole role: roles) {
-            userDao.removeRoleFromUser(role.getId(), userId);
+    public UserForm convertUserToForm(SysUser sysUser) {
+        List<Integer> roleIds = new ArrayList<>();
+        UserForm userForm = new UserForm();
+        for(SysRole role: sysUser.getRoles()){
+            roleIds.add(role.getId());
         }
+        BeanUtils.copyProperties(sysUser,userForm);
+        userForm.setRoleIds(roleIds);
+        return userForm;
     }
+
+    @Override
+    public SysUser convertFormToUser(UserForm form) {
+        List<SysRole> roles = new ArrayList<>();
+        SysUser sysUser = new SysUser();
+        for(Integer roleId: form.getRoleIds()){
+            SysRole role = roleService.getRoleById(roleId);
+            roles.add(role);
+        }
+        BeanUtils.copyProperties(form,sysUser);
+        sysUser.setRoles(roles);
+        return sysUser;
+    }
+
+//    @Override
+//    public void clearRoles(Integer userId) {
+//        Preconditions.checkNotNull(userDao.getById(userId),"该user不存在");
+//        List<SysRole> roles = roleDao.getByUserId(userId);
+//        for (SysRole role: roles) {
+//            userDao.removeRoleFromUser(role.getId(), userId);
+//        }
+//    }
 }

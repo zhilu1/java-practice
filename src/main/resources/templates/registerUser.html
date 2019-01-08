@@ -11,17 +11,20 @@
 <body>
 
 <div class="container">
-
-    <form class="form-horizontal" th:action="@{/authority/editUser}" th:object="${userForm}" method="post" >
+    <form class="form-horizontal" th:action="@{/authority/registerUser}" th:object="${userForm}" method="post" >
         <fieldset>
             <div id="legend" class="">
-                <legend class="">修改用户<span th:text="*{username}"> </span></legend>
+                <legend class="">新增用户</legend>
             </div>
 
             <div class="control-group">
+
                 <!-- Text input-->
-                <input type="text" hidden class="input-xlarge" th:field="*{username}">
-                <input type="text" hidden class="input-xlarge" th:field="*{id}">
+                <label class="control-label" for="name">用户名</label>
+                <div class="controls">
+                    <input type="text"  class="input-xlarge" th:field="*{username}">
+                    <p class="help-block">请输入新的用户名</p>
+                </div>
             </div>
 
             <div class="control-group">
@@ -72,7 +75,6 @@
                     <select id="roles" class="input-xlarge" th:field="*{roleIds}" multiple="multiple" >
                         <option th:each="role: ${allRoles}"
                                 th:value="${role.id}"
-                                th:selected="${userForm.roleIds.contains(role.id)}"
                                 th:text="${role.name}">
                         </option>
                     </select>
@@ -88,6 +90,10 @@
         </fieldset>
 
     </form>
+    <div th:if=" ${errorMsg} ne ''">
+        <p th:text="${errorMsg}">
+        </p>
+    </div>
 </div>
 </body>
 

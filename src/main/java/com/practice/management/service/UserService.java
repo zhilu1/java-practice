@@ -2,7 +2,7 @@ package com.practice.management.service;
 
 import com.practice.management.domain.SysPermission;
 import com.practice.management.domain.SysUser;
-import com.practice.management.domain.SysUser;
+import com.practice.management.domain.forms.UserForm;
 
 import java.util.List;
 
@@ -17,11 +17,14 @@ public interface UserService {
 
     boolean createUser(SysUser user);
 
-    int deleteUserById(Integer id);
+    int deleteUserByUsername(String username);
 
     List<SysPermission> getPermissionsByUserId(Integer id);
 
     int addRoleToUser(Integer userId, Integer roleId);
 
-    void clearRoles(Integer userId);
+    UserForm convertUserToForm(SysUser user);
+
+    SysUser convertFormToUser(UserForm form);
+
 }

@@ -1,0 +1,12 @@
+.add_btn {
+    width: 60px;
+    height: 60px;
+    -moz-border-radius: 30px;
+    -webkit-border-radius: 30px;
+    border-radius: 30px;
+    background: orangered;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    font-size: 30px;
+}

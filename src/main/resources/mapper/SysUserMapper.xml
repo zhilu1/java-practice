@@ -36,13 +36,13 @@
 
     <update id="updateUser" parameterType="com.practice.management.domain.SysUser">
         UPDATE sys_user u
-        SET  u.name = #{name} AND u.department = #{department} AND u.department = #{department} AND u.password = #{password}
-        WHERE u.id = #{id}
+        SET  u.name = #{user.name,jdbcType=VARCHAR} , u.department = #{user.department,jdbcType=VARCHAR} , u.password = #{user.password,jdbcType=VARCHAR}
+        WHERE u.id = #{user.id,jdbcType=INTEGER}
     </update>
 
     <insert id="createUser" parameterType="com.practice.management.domain.SysUser">
-    	insert into sys_user(id,username,password,name,department)
-    	values(#{user.id,jdbcType=INTEGER},#{user.username,jdbcType=VARCHAR},#{user.password,jdbcType=VARCHAR},#{user.name,jdbcType=VARCHAR},
+    	insert into sys_user(username,password,name,department)
+    	values(#{user.username,jdbcType=VARCHAR},#{user.password,jdbcType=VARCHAR},#{user.name,jdbcType=VARCHAR},
     		#{user.department,jdbcType=VARCHAR})
     </insert>
 
@@ -60,5 +60,11 @@
         delete sys_role_user from sys_role_user
         where role_id = #{rid} and user_id = #{uid}
     </delete>
+
+    <delete id="clearAllRolesOfUser">
+        delete from sys_role_user
+        where user_id = #{uid}
+    </delete>
+
 
 </mapper>

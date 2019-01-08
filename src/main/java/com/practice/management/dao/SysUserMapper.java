@@ -24,5 +24,7 @@ public interface SysUserMapper {
 
     int addRoleToUser(@Param("rid") Integer rid , @Param("uid") Integer uid);
 
-    int removeRoleFromUser(@Param("rid") Integer rid , @Param("uid") Integer uid);
+    int removeRoleFromUser(@Param("rid") Integer rid, @Param("uid") Integer uid);
+
+    int clearAllRolesOfUser(@Param("uid") Integer uid);
 }
