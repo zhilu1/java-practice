@@ -44,5 +44,10 @@
         where role_id = #{rid,jdbcType=INTEGER} and permission_id = #{pid,jdbcType=INTEGER}
     </delete>
 
+    <select id="getPermissionsById" resultType="com.practice.management.domain.SysPermission">
+        SELECT p.*
+        FROM sys_role r,sys_permission_role pr ,sys_permission p
+        WHERE r.id = #{roleId, jdbcType=INTEGER} AND r.id = pr.role_id AND p.id = pr.permission_id
+    </select>
 
 </mapper>

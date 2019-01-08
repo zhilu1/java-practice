@@ -8,45 +8,40 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/manageUser.css}" />
     <script th:src="@{/Bootstrap/bootstrap/js/bootstrap.min.js}"></script>
 
+    <script th:src="@{/js/roles.js}"></script>
 </head>
 <body>
 <header th:replace="common/navbar :: header"></header>
 
 <div class="panel panel-default">
     <!-- Default panel contents -->
-    <div class="panel-heading">用户管理</div>
+    <div class="panel-heading">角色管理</div>
     <div class="panel-body">
-        <p>用户列表</p>
+        <p>角色列表</p>
     </div>
 
     <!-- Table -->
     <table class="table">
         <tr>
-            <td>工号(用户名)</td>
-            <td>姓名</td>
-            <td>部门</td>
-            <td>角色</td>
+            <td>角色名</td>
+            <td>角色所有权限</td>
             <td>修改</td>
             <td>删除</td>
         </tr>
-        <tr th:each="user: ${users}">
-            <td th:text="${user.username}">未确认</td>
-            <td th:text="${user.name}">未确认</td>
-            <td th:text="${user.department}">未确认</td>
+        <tr th:each="role: ${roles}">
+            <td th:text="${role.name}">未确认</td>
             <td>
-                <ul >
-                    <li th:each="role: ${user.roles}">
-                        <span th:text="${role.name}"></span>
-                    </li>
+                <ul th:attr="id='role-'+${role.id}">
+
                 </ul>
             </td>
-            <td><a th:href="@{/authority/getUserInfoByName(username=${user.username})}">修改</a></td>
-            <td><a th:href="@{/authority/deleteUser(username=${user.username})}">删除</a></td>
+            <td><a th:href="@{/role/getUserInfoByName(username=${role.id})}">修改</a></td>
+            <td><a th:href="@{/role/deleteUser(username=${role.id})}">删除</a></td>
         </tr>
     </table>
 </div>
 <div>
-    <a class="btn btn-danger add_btn" th:href="@{/authority/addUser}">+</a>
+    <a class="btn btn-danger add_btn" th:href="@{/roles/addRole}">+</a>
 </div>
 
 </body>

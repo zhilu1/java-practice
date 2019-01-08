@@ -72,28 +72,20 @@ public class AuthorityController {
 
     @RequestMapping("/registerUser")
     public ModelAndView registerUser(@ModelAttribute UserForm userForm) {
-        SysUser user= new SysUser();
-        BeanUtils.copyProperties(userForm, user);
+        SysUser user = userService.convertFormToUser(userForm);
         try {
             userService.createUser(user);
         }
         catch (Exception e){
             ModelAndView mv = new ModelAndView();
-            mv.setViewName("addUser");
+            mv.setViewName("registerUser");
             List<SysRole> roles = roleService.getAll();
             mv.addObject("allRoles", roles);
             mv.addObject("userForm", userForm);
             mv.addObject("errorMsg", e.getMessage());
             return mv;
         }
-        return getAllUsers();
-
-
-//        }
-//        catch (Exception e){
-//            r.setErrMsg(e.getMessage());
-//            return r;
-//        }
+        return  new ModelAndView("redirect:getAllUsers");
     }
 
     @RequestMapping(value="/addUser")
@@ -112,7 +104,7 @@ public class AuthorityController {
     public ModelAndView editUser(@ModelAttribute UserForm userForm) {
         SysUser sysUser = userService.convertFormToUser(userForm);
         userService.updateUser(sysUser);
-        return getAllUsers();
+        return  new ModelAndView("redirect:getAllUsers");
     }
 //
 //    @RequestMapping(value="/editRoles")

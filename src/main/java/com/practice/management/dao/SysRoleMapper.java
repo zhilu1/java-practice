@@ -1,5 +1,6 @@
 package com.practice.management.dao;
 
+import com.practice.management.domain.SysPermission;
 import com.practice.management.domain.SysRole;
 import org.apache.ibatis.annotations.Param;
 
@@ -23,4 +24,5 @@ public interface SysRoleMapper {
 
     int removePermissionFromRole(@Param("rid") Integer rid, @Param("pid") Integer pid);
 
+    List<SysPermission> getPermissionsById(Integer roleId);
 }

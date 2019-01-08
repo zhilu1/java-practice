@@ -46,4 +46,10 @@ public class RoleServiceImpl implements RoleService {
         Preconditions.checkNotNull(roleDao.getById(roleId),"该role不存在");
         return roleDao.addPermissionToRole(roleId, permissionId);
     }
+
+    @Override
+    public List<SysPermission> getPermissionsById(Integer roleId) {
+        Preconditions.checkNotNull(roleDao.getById(roleId),"该role不存在");
+        return roleDao.getPermissionsById(roleId);
+    }
 }

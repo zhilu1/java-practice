@@ -1,5 +1,6 @@
 package com.practice.management.service;
 
+import com.practice.management.domain.SysPermission;
 import com.practice.management.domain.SysRole;
 import com.practice.management.domain.SysUser;
 
@@ -13,4 +14,6 @@ public interface RoleService {
     List<SysRole> getAll();
 
     int addPermissionToRole(Integer roleId, Integer permissionId);
+
+    List<SysPermission> getPermissionsById(Integer roleId);
 }

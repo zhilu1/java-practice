@@ -63,8 +63,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean updateUser(SysUser user) {
         Preconditions.checkNotNull(user, "入参为空");
-        Preconditions.checkNotNull(userDao.getById(user.getId()), "用户不存在");
-        Preconditions.checkNotNull(userDao.getByUserName(user.getUsername()), "用户不存在");
+        Preconditions.checkNotNull(userDao.getById(user.getId()), "用户id不存在");
+        Preconditions.checkNotNull(userDao.getByUserName(user.getUsername()), "用户名不存在");
+        Preconditions.checkArgument(user.getRoles().size() >= 1, "用户至少需要一个角色");
 //        SysUser oldUser = userDao.getById(user.getId()); 复制非空
 
         if(userDao.updateUser(user) >= 0){
@@ -84,14 +85,19 @@ public class UserServiceImpl implements UserService {
         Preconditions.checkArgument(!StringUtil.isEmpty(user.getName()), "用户姓名为空");
         Preconditions.checkArgument(!StringUtil.isEmpty(user.getPassword()), "用户密码为空");
         Preconditions.checkArgument(!StringUtil.isEmpty(user.getDepartment()), "用户所属部门为空");
-        Preconditions.checkArgument(userDao.getByUserName(user.getUsername()) != null, "账户名已存在");
+        Preconditions.checkArgument(user.getRoles().size() >= 1, "用户至少需要一个角色");
+        Preconditions.checkArgument(userDao.getByUserName(user.getUsername()) == null, "账户名已存在");
         int success = userDao.createUser(user);
         if(success > 0){
-            return true;
+            SysUser newUser = userDao.getByUserName(user.getUsername());
+            if(newUser != null){
+                for (SysRole role: user.getRoles()) {
+                    userDao.addRoleToUser(role.getId(), newUser.getId());
+                }
+                return true;
+            }
         }
-        else{
-            return false;
-        }
+        return false;
     }
 
     @Override
