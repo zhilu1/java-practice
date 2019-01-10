@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.practice.management.mapper.RecordMapper">
+    <resultMap id="BaseResultMap" type="com.practice.management.bean.Record">
+        <constructor>
+            <arg column="staff_id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="riqi" javaType="java.util.Date" jdbcType="DATE" />
+            <arg column="sbtime" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="xbtime" javaType="java.lang.String" jdbcType="VARCHAR" />
+        </constructor>
+    </resultMap>
+
+    <sql id="column_List">
+        riqi,staff_id,sbtime,xbtime
+    </sql>
+
+    <select id="selectRecords" resultMap="BaseResultMap">
+        SELECT
+            *
+        FROM record
+    </select>
+
+
+    <update id="updateByIdAndRiqi" parameterType="com.practice.management.bean.Record">
+        update record set sbtime=#{record.sbtime} ,xbtime=#{record.xbtime}
+                        where staff_id = #{record.staffId} and riqi=#{record.riqi}
+    </update>
+
+    <select id="selectByIdAndRiqi" resultType="Integer">
+        SELECT count(*) FROM record WHERE staff_id = #{staffId} and riqi=#{riqi}
+    </select>
+
+    <select id="selectByIdAndYearAndMonth" resultType="com.practice.management.bean.Record">
+        SELECT r.sbtime,r.xbtime, r.riqi,r.staff_id
+        FROM record r
+        ,(select EXTRACT (YEAR FROM riqi) AS year From record where r.id = id) years
+        ,(select EXTRACT (MONTH FROM riqi) AS month From record where r.id = id) months
+        WHERE r.staff_id = #{staffId} and
+            years.year = #{year} and months.month = #{month}
+    </select>
+
+    <insert id="addRecord" parameterType="com.practice.management.bean.Record">
+        insert into record
+            (riqi,staff_id,sbtime,xbtime)
+        values
+        (
+            #{record.riqi},
+            #{record.staffId},
+            #{record.sbtime},
+            #{record.xbtime}
+        )
+    </insert>
+
+</mapper>
