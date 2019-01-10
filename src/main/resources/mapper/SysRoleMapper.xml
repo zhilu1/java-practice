@@ -18,14 +18,17 @@
 
     <update id="updateRole" parameterType="com.practice.management.domain.SysRole">
         UPDATE sys_role
-        SET  name = #{name,jdbcType=VARCHAR}
-        WHERE id = #{id,jdbcType=INTEGER}
+        SET  name = #{role.name,jdbcType=VARCHAR}
+        WHERE id = #{role.id,jdbcType=INTEGER}
     </update>
 
 
     <insert id="createRole" parameterType="com.practice.management.domain.SysRole">
+        <selectKey keyProperty="role.id" keyColumn="id" resultType="int">
+            select LAST_INSERT_ID() as id
+        </selectKey>
     	insert into sys_role(name)
-    	values(#{name,jdbcType=VARCHAR})
+    	values(#{role.name,jdbcType=VARCHAR})
     </insert>
 
     <delete id="deleteRoleById">

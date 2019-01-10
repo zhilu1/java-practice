@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Account Management</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/Bootstrap/bootstrap/css/bootstrap.css}" />
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script th:src="@{/Bootstrap/bootstrap/js/bootstrap.js}"></script>
+    <script th:src="@{/js/roles.js}"></script>
+    <script th:inline="javascript">
+        function onload(){
+            let permissions = document.getElementById("permissions");
+            let allPerms;
+            getAllPermissions().then(res => {
+                allPerms = res.wrapper;
+                allPerms.forEach(perm => {
+                    let option = document.createElement("option");
+                    option.innerText = perm.name + ": 描述：" + perm.description;
+                    option.value = perm.id;
+                    permissions.appendChild(option);
+                })
+            }).catch(err => {
+                console.log(err);
+            });
+        }
+
+        function confirmRegister(){
+            let role = [[${role}]];
+            console.log(role);
+            registerRole(role);
+        }
+    </script>
+</head>
+<body onload="onload()">
+<header th:replace="common/navbar :: header"></header>
+
+<div class="container">
+
+    <div id="legend" class="">
+        <legend class="">新增角色</legend>
+    </div>
+
+    <div class="control-group">
+
+        <!-- Text input-->
+        <label class="control-label" for="name">名字</label>
+        <div class="controls">
+            <input type="text"  class="input-xlarge" id="name">
+            <p class="help-block">请输入新的名字</p>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <!-- Select Multiple -->
+        <label class="control-label">权限选择</label>
+        <div class="controls">
+            <select id="permissions" class="input-xlarge" multiple="multiple" >
+
+            </select>
+        </div>
+    </div>
+    <div class="control-group">
+
+        <label class="control-label"> 确认新增</label>
+        <!-- Button -->
+        <div class="controls">
+            <button class="btn btn-success" id="confirm_register" onclick="confirmRegister()">确认新增</button>
+        </div>
+    </div>
+
+    <div class="alert alert-danger alert-dismissible" role="alert" th:if=" ${errorMsg} ne ''">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <p th:text="${errorMsg}">
+        </p>
+    </div>
+</div>
+</body>
+
+</html>

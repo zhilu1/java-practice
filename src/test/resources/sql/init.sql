@@ -13,7 +13,8 @@ DROP TABLE IF EXISTS `Sys_Role`;
 CREATE TABLE `Sys_Role`(
 `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
 `name` VARCHAR(200) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE (`name`)
 ) CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 DROP TABLE IF EXISTS `Sys_permission`;
@@ -54,4 +55,5 @@ insert into SYS_ROLE_USER(user_id,role_id) values(1,1);
 insert into SYS_ROLE_USER(user_id,role_id) values(2,2);
 
 INSERT INTO `Sys_permission` VALUES ('1', 'ROLE_HOME', 'home', '/', null), ('2', 'ROLE_ADMIN', 'ABel', '/admin', null), ('3', 'ROLE_USEROP', 'user operations', '/authority', null);
-INSERT INTO `Sys_permission_role` VALUES ('1', '1', '1'), ('2', '1', '2'), ('3', '2', '1') , ('4', '1', '3');
+INSERT INTO `Sys_permission` VALUES ('4', 'ROLE_ROLEOP', 'role operations', '/role', null);
+INSERT INTO `Sys_permission_role` VALUES ('1', '1', '1'), ('2', '1', '2'), ('3', '2', '1') , ('4', '1', '3'), ('5', '1', '4');

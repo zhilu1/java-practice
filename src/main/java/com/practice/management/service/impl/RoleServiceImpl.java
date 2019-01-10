@@ -31,7 +31,7 @@ public class RoleServiceImpl implements RoleService {
         Preconditions.checkNotNull(roleDao.getById(roleId),"该user不存在");
         List<SysPermission> permissions = permissionDao.getByUserId(roleId);
         for (SysPermission permission: permissions) {
-            roleDao.removePermissionFromRole(permission.getId(), roleId);
+            roleDao.removePermissionFromRole( roleId,permission.getId());
         }
     }
 
@@ -51,5 +51,19 @@ public class RoleServiceImpl implements RoleService {
     public List<SysPermission> getPermissionsById(Integer roleId) {
         Preconditions.checkNotNull(roleDao.getById(roleId),"该role不存在");
         return roleDao.getPermissionsById(roleId);
+    }
+
+    @Override
+    public void deleteRoleById(Integer roleId) {
+        Preconditions.checkNotNull(roleDao.getById(roleId),"该role不存在");
+        roleDao.deleteRoleById(roleId);
+    }
+
+    @Override
+    public Integer createRole(String name, List<Integer> permissions) {
+        SysRole role = new SysRole();
+        role.setName(name);
+        roleDao.createRole(role);
+        return role.getId();
     }
 }

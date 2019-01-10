@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <header>
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<nav class="navbar navbar-inverse">
     <div class="container">
         <div class="navbar-header">
             <a class="navbar-brand" href="#">Spring Security演示</a>
@@ -20,7 +20,7 @@
                 </li>
 
                 <li> <!-- 用户权限为ROLE_ADMIN 显示 -->
-                    <a th:href="@{/role/getAllRoles}">注销</a>
+                    <a th:href="@{/logout}">注销</a>
                 </li>
             </ul>
         </div><!--/.nav-collapse -->

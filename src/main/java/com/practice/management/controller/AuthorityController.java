@@ -6,7 +6,6 @@ import com.practice.management.domain.SysUser;
 import com.practice.management.domain.forms.UserForm;
 import com.practice.management.service.RoleService;
 import com.practice.management.service.UserService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -34,24 +33,23 @@ public class AuthorityController {
             List<SysUser> dtos= userService.getAll();
             mv.addObject("users",  dtos);
             return mv;
-//        }
 //        catch (Exception e){
 //            mv.addObject("error", e.getMessage());
 //            return mv;
 //        }
     }
-    @RequestMapping("/getAllRoles")
-    public Response<List<SysRole>> getAllRoles() {
-        Response r = new Response();
-        try{
-            List<SysRole> roles = roleService.getAll();
-            r.setWrapper(roles);
-        }
-        catch (Exception e){
-            r.setErrMsg(e.getMessage());
-        }
-        return r;
-    }
+//    @RequestMapping("/getAllRoles")
+//    public Response<List<SysRole>> getAllRoles() {
+//        Response r = new Response();
+//        try{
+//            List<SysRole> roles = roleService.getAll();
+//            r.setWrapper(roles);
+//        }
+//        catch (Exception e){
+//            r.setErrMsg(e.getMessage());
+//        }
+//        return r;
+//    }
     @RequestMapping("/getUserInfoByName")
     public ModelAndView getUserInfo(String username) {
         ModelAndView mv = new ModelAndView();
@@ -106,13 +104,6 @@ public class AuthorityController {
         userService.updateUser(sysUser);
         return  new ModelAndView("redirect:getAllUsers");
     }
-//
-//    @RequestMapping(value="/editRoles")
-//    public ModelAndView editRoles(@ModelAttribute UserForm userForm) {
-//        SysUser sysUser = userService.convertFormToUser(userForm);
-//        userService.updateUser(sysUser);
-//        return getAllUsers();
-//    }
 
     @RequestMapping(value="/deleteUser")
     public ModelAndView deleteUser(String username) {
@@ -159,20 +150,5 @@ public class AuthorityController {
         return r;
     }
 
-
-//    @RequestMapping("/changeRolesOfUser")
-//    public Response editRoleOfUser(@RequestParam(value = "userId")Integer userId,@RequestParam(value = "roles") List<Integer> roles) {
-//        Response r = new Response();
-//        try{
-//            userService.clearRoles(userId);
-//            for (int roleId: roles) {
-//                userService.addRoleToUser(userId, roleId);
-//            }
-//        }
-//        catch (Exception e){
-//            r.setErrMsg(e.getMessage());
-//        }
-//        return r;
-//    }
 
 }
