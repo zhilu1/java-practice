@@ -44,8 +44,10 @@ function checkContainsId(list, item){
 }
 function changeRole(role) {
     let pms = document.getElementById("permissions");
+    let name = document.getElementById("name");
     let searchParams = new URLSearchParams();
     searchParams.set('roleId', role.id);
+    searchParams.set('name', name.value);
     for (let i = 0; i < pms.length; i++) {
         let permission = pms.options[i];
         if (permission.selected == true){
@@ -53,11 +55,22 @@ function changeRole(role) {
         }
     }
 
-    fetch("http://localhost:8080/role/changePermissionsOfRole",{
+    fetch("http://localhost:8080/role/changeRole",{
         method: 'POST',
         body: searchParams
     }).then(res => {
-        console.log(res);
+        return res.json();
+
+    }).then(json =>{
+        console.log(json);
+        if(json.errMsg != ""){
+            let errDiv = document.getElementById("errorMsg");
+            errDiv.innerText = json.errMsg;
+            errDiv.style.display = "block";
+        }
+        else{
+            window.location = "http://localhost:8080/role/getAllRoles";
+        }
     }).catch(err => {
         console.log(err);
     });
@@ -78,20 +91,20 @@ function registerRole() {
         method: 'POST',
         body: searchParams
     }).then(res => {
-        console.log(res);
-    //     return res.json();
-    //
-    // }).then(json =>{
-    //     console.log(json);
-    //     if(json.errMsg != ""){
-    //         let errDiv = document.getElementById("errorMsg");
-    //         // let msg = document.createTextNode(json.errMsg);
-    //         // errDiv.appendChild(msg);
-    //         errDiv.innerText = json.errMsg;
-    //         errDiv.style.display = "block";
-    //     }
-    })
-        .catch(err => {
+        return res.json();
+
+    }).then(json =>{
+        if(json.errMsg != ""){
+            let errDiv = document.getElementById("errorMsg");
+            // let msg = document.createTextNode(json.errMsg);
+            // errDiv.appendChild(msg);
+            errDiv.innerText = json.errMsg;
+            errDiv.style.display = "block";
+        }
+        else{
+            window.location = "http://localhost:8080/role/getAllRoles";
+        }
+    }).catch(err => {
         console.log(err);
     });
 

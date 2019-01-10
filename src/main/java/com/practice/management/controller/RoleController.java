@@ -97,11 +97,16 @@ public class RoleController {
         return mv;
     }
 
-    @RequestMapping(value = "/changePermissionsOfRole", method = RequestMethod.POST)
+    @RequestMapping(value = "/changeRole", method = RequestMethod.POST)
     @ResponseBody
-    public Response changePermissionsOfRole( @RequestParam(value = "roleId")Integer roleId, @RequestParam(value = "permissions") List<Integer> permissions) {
+    public Response changeRole( @RequestParam(value = "roleId")Integer roleId, @RequestParam(value = "name", required = false)String name, @RequestParam(value = "permissions", required = false ) List<Integer> permissions) {
         Response r = new Response();
+        if (permissions == null) {
+            r.setErrMsg("角色至少需要一个权限 ");
+            return r;
+        }
         try{
+            roleService.updateRole(roleId, name);
             roleService.clearPermissions(roleId);
             for (Integer permissionId: permissions) {
                 roleService.addPermissionToRole(roleId, permissionId);
@@ -115,15 +120,13 @@ public class RoleController {
     }
 
     @RequestMapping(value = "/registerRole", method = RequestMethod.POST)
-    public Response registerRole( @RequestParam(value = "name", required = false)String name, @RequestParam(value = "permissions", required = false ) List<Integer> permissions) {
+    @ResponseBody
+    public Response registerRole(@RequestParam(value = "name", required = false)String name, @RequestParam(value = "permissions", required = false ) List<Integer> permissions) {
         Response r = new Response();
-        if(permissions == null){
+        if (permissions == null) {
             r.setErrMsg("角色至少需要一个权限 ");
+            return r;
         }
-        else if(name.isEmpty() || name == null){
-            r.setErrMsg("角色名不得为空 ");
-        }
-        else{
             try {
                 Integer roleId = roleService.createRole(name, permissions);
                 for (Integer permissionId : permissions) {
@@ -134,8 +137,6 @@ public class RoleController {
                 r.setErrMsg(e.getMessage());
                 return r;
             }
-        }
-        return r;
     }
 
 }

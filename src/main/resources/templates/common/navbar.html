@@ -5,21 +5,21 @@
 <nav class="navbar navbar-inverse">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">Spring Security演示</a>
+            <a class="navbar-brand" th:href="@{/}">考勤管理系统 名字既长且空</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li><a th:href="@{/}"> 首页 </a></li>
 
-                <li sec:authorize="hasRole('ROLE_ADMIN')"> <!-- 用户权限为ROLE_ADMIN 显示 -->
+                <li sec:authorize="hasRole('ROLE_USEROP')"> <!-- 用户权限为ROLE_ADMIN 显示 -->
                     <a th:href="@{/authority/getAllUsers}"> 管理用户 </a>
                 </li>
 
-                <li sec:authorize="hasRole('ROLE_ADMIN')"> <!-- 用户权限为ROLE_ADMIN 显示 -->
+                <li sec:authorize="hasRole('ROLE_ROLEOP')"> <!-- 用户权限为ROLE_ADMIN 显示 -->
                     <a th:href="@{/role/getAllRoles}"> 管理角色 </a>
                 </li>
 
-                <li> <!-- 用户权限为ROLE_ADMIN 显示 -->
+                <li sec:authorize="isAuthenticated()"> <!-- 用户权限为ROLE_ADMIN 显示 -->
                     <a th:href="@{/logout}">注销</a>
                 </li>
             </ul>

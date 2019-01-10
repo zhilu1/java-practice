@@ -42,6 +42,11 @@
     	values(#{rid,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER})
     </insert>
 
+    <delete id="clearPermissions">
+        delete from sys_permission_role
+        where role_id = #{rid,jdbcType=INTEGER}
+    </delete>
+
     <delete id="removePermissionFromRole">
         delete sys_permission_role from sys_permission_role
         where role_id = #{rid,jdbcType=INTEGER} and permission_id = #{pid,jdbcType=INTEGER}

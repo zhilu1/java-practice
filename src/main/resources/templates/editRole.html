@@ -3,7 +3,7 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
-    <title>Account Management</title>
+    <title>角色管理</title>
     <link rel="stylesheet" type="text/css" th:href="@{/Bootstrap/bootstrap/css/bootstrap.css}" />
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script th:src="@{/Bootstrap/bootstrap/js/bootstrap.js}"></script>
@@ -42,8 +42,6 @@
 
 <div class="container">
 
-    <form class="form-horizontal" method="post" >
-        <fieldset>
             <div id="legend" class="">
                 <legend class="">修改角色</legend>
             </div>
@@ -74,9 +72,10 @@
                 <button class="btn btn-success" id="confirm_change" onclick="confirmChange()">确认修改</button>
             </div>
         </div>
-        </fieldset>
+</div>
+<div class="alert alert-danger alert-dismissible" style="display: none" role="alert" id="errorMsg">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 
-    </form>
 </div>
 </body>
 

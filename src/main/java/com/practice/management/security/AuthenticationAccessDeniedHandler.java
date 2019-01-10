@@ -18,7 +18,7 @@ public class AuthenticationAccessDeniedHandler implements AccessDeniedHandler {
         resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
         resp.setCharacterEncoding("UTF-8");
         PrintWriter out = resp.getWriter();
-        out.write("{\"status\":\"error\",\"msg\":\"权限不足，请联系管理员!\"}");
+        out.write("{\"status\":\"error\",\"msg\":\"Permission Denied, Please contact Admin!\"}");
         out.flush();
         out.close();
     }

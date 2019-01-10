@@ -15,6 +15,8 @@ public interface RoleService {
 
     int addPermissionToRole(Integer roleId, Integer permissionId);
 
+    int updateRole(Integer roleId, String name);
+
     List<SysPermission> getPermissionsById(Integer roleId);
 
     void deleteRoleById(Integer roleId);

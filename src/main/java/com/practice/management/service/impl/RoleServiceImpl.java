@@ -1,5 +1,6 @@
 package com.practice.management.service.impl;
 
+import com.github.pagehelper.util.StringUtil;
 import com.practice.management.dao.SysPermissionMapper;
 import com.practice.management.dao.SysRoleMapper;
 import com.practice.management.domain.SysPermission;
@@ -28,11 +29,8 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public void clearPermissions(Integer roleId) {
-        Preconditions.checkNotNull(roleDao.getById(roleId),"该user不存在");
-        List<SysPermission> permissions = permissionDao.getByUserId(roleId);
-        for (SysPermission permission: permissions) {
-            roleDao.removePermissionFromRole( roleId,permission.getId());
-        }
+        Preconditions.checkNotNull(roleDao.getById(roleId),"该role不存在");
+        roleDao.clearPermissions(roleId);
     }
 
     @Override
@@ -42,9 +40,19 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public int addPermissionToRole(Integer roleId, Integer permissionId) {
-        Preconditions.checkNotNull(permissionDao.getById(permissionId),"该user不存在");
+        Preconditions.checkNotNull(permissionDao.getById(permissionId),"该权限不存在");
         Preconditions.checkNotNull(roleDao.getById(roleId),"该role不存在");
         return roleDao.addPermissionToRole(roleId, permissionId);
+    }
+
+    @Override
+    public int updateRole(Integer roleId, String name) {
+        Preconditions.checkArgument(! StringUtil.isEmpty(name),"角色名不得为空");
+        Preconditions.checkNotNull(roleDao.getById(roleId),"该role不存在");
+        SysRole role = new SysRole();
+        role.setName(name);
+        role.setId(roleId);
+        return roleDao.updateRole(role);
     }
 
     @Override
@@ -61,6 +69,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Integer createRole(String name, List<Integer> permissions) {
+        Preconditions.checkArgument(! StringUtil.isEmpty(name),"角色名不得为空");
         SysRole role = new SysRole();
         role.setName(name);
         roleDao.createRole(role);

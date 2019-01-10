@@ -24,5 +24,7 @@ public interface SysRoleMapper {
 
     int removePermissionFromRole(@Param("rid") Integer rid, @Param("pid") Integer pid);
 
+    int clearPermissions(@Param("rid") Integer rid);
+
     List<SysPermission> getPermissionsById(Integer roleId);
 }
