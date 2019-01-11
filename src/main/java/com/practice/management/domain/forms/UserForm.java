@@ -7,6 +7,7 @@ public class UserForm {
     private Integer id;
     private String username; // 工号作为用户名
     private String password;
+    private String repassword;
     private String name;
     private String department;
     private List<Integer> roleIds = new ArrayList<>();
@@ -57,5 +58,13 @@ public class UserForm {
 
     public void setDepartment(String department) {
         this.department = department;
+    }
+
+    public String getRepassword() {
+        return repassword;
+    }
+
+    public void setRepassword(String repassword) {
+        this.repassword = repassword;
     }
 }
