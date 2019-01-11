@@ -31,7 +31,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers(new String[]{"/plugins/**"}).permitAll()//
+//                .antMatchers("/").permitAll().and() // 测试用 避开login
+                .antMatchers(new String[]{"/plugins/**"}).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

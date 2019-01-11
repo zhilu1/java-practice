@@ -29,7 +29,7 @@ public class RecordController {
     public String showRecord(Model model) {
         List<Record> records = recordService.selectRecords();
         model.addAttribute("record", records);
-        return "index";
+        return "jsp/index";
     }
 
 
@@ -37,7 +37,7 @@ public class RecordController {
     public String seclectedRecords(Model model1,String id,String year,String month){
         List<Record> records = recordService.selectByIdAndDate(id,year,month);
         model1.addAttribute("record",records);
-        return "index";
+        return "jsp/index";
     }
 
 

@@ -1,4 +1,4 @@
-package com.practice.management.service.Impl;
+package com.practice.management.service.impl;
 
 import com.practice.management.domain.Record;
 import com.practice.management.common.MyException;
