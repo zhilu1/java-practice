@@ -9,6 +9,16 @@ CREATE TABLE `Sys_User`(
   UNIQUE (`username`)
 )CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+DROP TABLE IF EXISTS `record`;
+CREATE TABLE `record` (
+  `id` int(30) NOT NULL AUTO_INCREMENT,
+  `riqi` date NOT NULL,
+  `staff_id` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `sbtime` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `xbtime` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 DROP TABLE IF EXISTS `Sys_Role`;
 CREATE TABLE `Sys_Role`(
 `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -45,11 +55,14 @@ CREATE TABLE `Sys_permission_role`(
   PRIMARY KEY (`id`)
 )CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-insert into SYS_USER (id,username, password, name, department) values (1,'admin', 'admin', 'Oven', 'UNO');
-insert into SYS_USER (id,username, password, name, department) values (2,'abel', 'abel', 'Alien', 'UFO');
+insert into SYS_USER (id,username, password, name, department) values (1,'101', 'admin', 'Oven', 'UNO');
+insert into SYS_USER (id,username, password, name, department) values (2,'111', 'abel', 'Alien', 'UFO');
 
 insert into SYS_ROLE(id,name) values(1,'ROLE_ADMIN');
 insert into SYS_ROLE(id,name) values(2,'ROLE_USER');
+
+insert into record(riqi,staff_id, sbtime, xbtime) values('2019-01-11','101','10:00','15:00');
+insert into record(riqi,staff_id, sbtime, xbtime) values('2019-01-11','111','11:00','5:00');
 
 insert into SYS_ROLE_USER(user_id,role_id) values(1,1);
 insert into SYS_ROLE_USER(user_id,role_id) values(2,2);
