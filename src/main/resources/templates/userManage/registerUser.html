@@ -12,7 +12,7 @@
 <header th:replace="common/navbar :: header"></header>
 
 <div class="container">
-    <form class="form-horizontal" th:action="@{/authority/registerUser}" th:object="${userForm}" method="post" >
+    <form class="form-horizontal" id="registerForm" th:action="@{/authority/registerUser}" th:object="${userForm}" method="post" >
         <fieldset>
             <div id="legend" class="">
                 <legend class="">新增用户</legend>
@@ -52,7 +52,7 @@
                 <!-- Text input-->
                 <label class="control-label" for="password">密码</label>
                 <div class="controls">
-                    <input type="text" placeholder="placeholder" class="input-xlarge" th:field="*{password}">
+                    <input type="password" placeholder="placeholder" class="input-xlarge" id="password" name="password">
                     <p class="help-block">输入新的密码</p>
                 </div>
             </div>
@@ -60,14 +60,12 @@
             <div class="control-group">
 
                 <!-- Text input-->
-                <label class="control-label" for="repassword">确认密码</label>
+                <label class="control-label" for="password">密码</label>
                 <div class="controls">
-                    <input type="text" placeholder="placeholder" class="input-xlarge" th:value="*{password}">
-                    <p class="help-block">重复新的密码</p>
+                    <input type="password" placeholder="placeholder" class="input-xlarge" id="repassword" name="repassword">
+                    <p class="help-block">输入新的密码</p>
                 </div>
             </div>
-
-
 
             <div class="control-group">
                 <!-- Select Multiple -->
@@ -97,6 +95,8 @@
         </p>
     </div>
 </div>
+
+
 </body>
 
 </html>

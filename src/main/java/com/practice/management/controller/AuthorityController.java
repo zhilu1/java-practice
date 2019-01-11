@@ -28,44 +28,22 @@ public class AuthorityController {
     @RequestMapping("/getAllUsers")
     public ModelAndView getAllUsers() {
         ModelAndView mv = new ModelAndView();
-//        try{
-            mv.setViewName("users");
+            mv.setViewName("userManage/users");
             List<SysUser> dtos= userService.getAll();
             mv.addObject("users",  dtos);
             return mv;
-//        catch (Exception e){
-//            mv.addObject("error", e.getMessage());
-//            return mv;
-//        }
     }
-//    @RequestMapping("/getAllRoles")
-//    public Response<List<SysRole>> getAllRoles() {
-//        Response r = new Response();
-//        try{
-//            List<SysRole> roles = roleService.getAll();
-//            r.setWrapper(roles);
-//        }
-//        catch (Exception e){
-//            r.setErrMsg(e.getMessage());
-//        }
-//        return r;
-//    }
+
     @RequestMapping("/getUserInfoByName")
     public ModelAndView getUserInfo(String username) {
         ModelAndView mv = new ModelAndView();
-//        try{
-            mv.setViewName("editUser");
+            mv.setViewName("userManage/editUser");
             SysUser user = userService.getUserByUserName(username);
             List<SysRole> roles = roleService.getAll();
             UserForm userForm = userService.convertUserToForm(user);
             mv.addObject("allRoles", roles);
             mv.addObject("userForm",  userForm);
             return mv;
-//        }
-//        catch (Exception e){
-//            mv.addObject("error", e);
-//            return mv;
-//        }
     }
 
     @RequestMapping("/registerUser")
@@ -76,7 +54,7 @@ public class AuthorityController {
         }
         catch (Exception e){
             ModelAndView mv = new ModelAndView();
-            mv.setViewName("registerUser");
+            mv.setViewName("userManage/registerUser");
             List<SysRole> roles = roleService.getAll();
             mv.addObject("allRoles", roles);
             mv.addObject("userForm", userForm);
@@ -89,7 +67,7 @@ public class AuthorityController {
     @RequestMapping(value="/addUser")
     public ModelAndView addUser() {
         ModelAndView mv = new ModelAndView();
-        mv.setViewName("registerUser");
+        mv.setViewName("userManage/registerUser");
         List<SysRole> roles = roleService.getAll();
         UserForm userForm = new UserForm();
         mv.addObject("allRoles", roles);
@@ -108,46 +86,7 @@ public class AuthorityController {
     @RequestMapping(value="/deleteUser")
     public ModelAndView deleteUser(String username) {
         userService.deleteUserByUsername(username);
-        return getAllUsers();
-    }
-
-//    @RequestMapping(value="/editUser", method= RequestMethod.POST)
-//    public Response<SysUser> editUser(Integer staffId, String username, String password, String name, String department) {
-//        Response<SysUser> r = new Response<>();
-//        try{
-//            SysUser dto = new SysUser();
-//            dto.setDepartment(department);
-//            dto.setId(staffId);
-//            dto.setUsername(username);
-//            dto.setPassword(password);
-//            dto.setName(name);
-//            if(userService.updateUser(dto)){
-//                return new Response<>(dto);
-//            }
-//            else{
-//                r.setErrMsg("数据库中创建User失败");
-//                return r;
-//            }
-//        }
-//        catch (Exception e){
-//            r.setErrMsg(e.getMessage());
-//            return r;
-//        }
-//    }
-
-    @RequestMapping("/changePermissionsOfRole")
-    public Response changePermissionsOfRole(@RequestParam(value = "roleId")Integer roleId,@RequestParam(value = "permissions") List<Integer> permissions) {
-        Response r = new Response();
-        try{
-            roleService.clearPermissions(roleId);
-            for (Integer permissionId: permissions) {
-                roleService.addPermissionToRole(roleId, permissionId);
-            }
-        }
-        catch (Exception e){
-            r.setErrMsg(e.getMessage());
-        }
-        return r;
+        return  new ModelAndView("redirect:getAllUsers");
     }
 
 

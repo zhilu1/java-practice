@@ -1,18 +1,13 @@
 package com.practice.management.controller;
 
 
-import com.practice.management.domain.SysPermission;
 import com.practice.management.domain.SysRole;
-import com.practice.management.service.PermissionService;
 import com.practice.management.service.RoleService;
-import com.practice.management.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -22,54 +17,23 @@ public class RoleController {
     @Autowired
     private RoleService roleService;
 
-    @Autowired
-    private PermissionService permissionService;
-
     @RequestMapping("/getAllRoles")
     public ModelAndView getAllRoles() {
         ModelAndView mv = new ModelAndView();
-        mv.setViewName("roles");
+        mv.setViewName("roleManage/roles");
         List<SysRole> roles = roleService.getAll();
         mv.addObject("roles",  roles);
         mv.addObject("errorMsg", "");
         return mv;
     }
 
-    @RequestMapping("/getAllPermissions")
-    @ResponseBody
-    public  Response<List<SysPermission>> getAllPermissions() {
-        Response<List<SysPermission>> r = new Response<>();
-        try{
-            List<SysPermission> ps = permissionService.getAll();
-            r.setWrapper(ps);
-        }
-        catch (Exception e){
-            r.setErrMsg(e.getMessage());
-        }
-        return r;
-    }
-
-
-    @RequestMapping("/getPermissionsOfRole")
-    @ResponseBody
-    public Response<List<SysPermission>> getPermissionsOfRole(@RequestParam(value = "roleId")Integer roleId) {
-        Response<List<SysPermission>> r = new Response<>();
-        try{
-            List<SysPermission> ps = roleService.getPermissionsById(roleId);
-            r.setWrapper(ps);
-        }
-        catch (Exception e){
-            r.setErrMsg(e.getMessage());
-        }
-        return r;
-    }
 
     @RequestMapping("/editRolePage")
     public ModelAndView editRolePage(Integer roleId) {
         try{
             SysRole role = roleService.getRoleById(roleId);
             ModelAndView mv = new ModelAndView();
-            mv.setViewName("editRole");
+            mv.setViewName("roleManage/editRole");
             mv.addObject("role",  role);
             return mv;
         }
@@ -92,51 +56,11 @@ public class RoleController {
     @RequestMapping(value="/addRole")
     public ModelAndView addRole() {
         ModelAndView mv = new ModelAndView();
-        mv.setViewName("registerRole");
+        mv.setViewName("roleManage/registerRole");
         mv.addObject("errorMsg", "");
         return mv;
     }
 
-    @RequestMapping(value = "/changeRole", method = RequestMethod.POST)
-    @ResponseBody
-    public Response changeRole( @RequestParam(value = "roleId")Integer roleId, @RequestParam(value = "name", required = false)String name, @RequestParam(value = "permissions", required = false ) List<Integer> permissions) {
-        Response r = new Response();
-        if (permissions == null) {
-            r.setErrMsg("角色至少需要一个权限 ");
-            return r;
-        }
-        try{
-            roleService.updateRole(roleId, name);
-            roleService.clearPermissions(roleId);
-            for (Integer permissionId: permissions) {
-                roleService.addPermissionToRole(roleId, permissionId);
-            }
-            return r;
-        }
-        catch (Exception e){
-            r.setErrMsg(e.getMessage());
-            return r;
-        }
-    }
 
-    @RequestMapping(value = "/registerRole", method = RequestMethod.POST)
-    @ResponseBody
-    public Response registerRole(@RequestParam(value = "name", required = false)String name, @RequestParam(value = "permissions", required = false ) List<Integer> permissions) {
-        Response r = new Response();
-        if (permissions == null) {
-            r.setErrMsg("角色至少需要一个权限 ");
-            return r;
-        }
-            try {
-                Integer roleId = roleService.createRole(name, permissions);
-                for (Integer permissionId : permissions) {
-                    roleService.addPermissionToRole(roleId, permissionId);
-                }
-                return r;
-            } catch (Exception e) {
-                r.setErrMsg(e.getMessage());
-                return r;
-            }
-    }
 
 }
