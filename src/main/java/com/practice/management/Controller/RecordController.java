@@ -1,7 +1,9 @@
 package com.practice.management.Controller;
 
 import com.practice.management.bean.Record;
+import com.practice.management.bean.Staff;
 import com.practice.management.service.RecordService;
+import com.practice.management.service.StaffService;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -25,6 +27,9 @@ public class RecordController {
     @Autowired
     private RecordService recordService;
 
+    @Autowired
+    private StaffService staffService;
+
     @RequestMapping("/index")
     public String showRecord(Model model) {
         List<Record> records = recordService.selectRecords();
@@ -34,8 +39,10 @@ public class RecordController {
 
 
     @RequestMapping(value = "/selectRecordByIdAndDate")
-    public String seclectedRecords(Model model1,String id,String year,String month){
-        List<Record> records = recordService.selectByIdAndDate(id,year,month);
+    public String seclectedRecords(Model model1,String staffId,String year,String month){
+        Staff selectedStaff = staffService.selectById(staffId);
+        List<Record> records = recordService.selectByIdAndDate(staffId,year,month);
+        model1.addAttribute("selectedStaff",selectedStaff);
         model1.addAttribute("record",records);
         return "index";
     }

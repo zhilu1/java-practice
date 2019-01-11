@@ -3,7 +3,7 @@
 <mapper namespace="com.practice.management.mapper.RecordMapper">
     <resultMap id="BaseResultMap" type="com.practice.management.bean.Record">
         <constructor>
-            <arg column="staff_id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="staff_id" javaType="java.lang.String" jdbcType="VARCHAR" />
             <arg column="riqi" javaType="java.util.Date" jdbcType="DATE" />
             <arg column="sbtime" javaType="java.lang.String" jdbcType="VARCHAR" />
             <arg column="xbtime" javaType="java.lang.String" jdbcType="VARCHAR" />
@@ -30,13 +30,12 @@
         SELECT count(*) FROM record WHERE staff_id = #{staffId} and riqi=#{riqi}
     </select>
 
-    <select id="selectByIdAndYearAndMonth" resultType="com.practice.management.bean.Record">
+    <select id="selectByIdAndYearAndMonth" resultMap="BaseResultMap">
         SELECT r.sbtime,r.xbtime, r.riqi,r.staff_id
         FROM record r
-        ,(select EXTRACT (YEAR FROM riqi) AS year From record where r.id = id) years
-        ,(select EXTRACT (MONTH FROM riqi) AS month From record where r.id = id) months
         WHERE r.staff_id = #{staffId} and
-            years.year = #{year} and months.month = #{month}
+            #{year} = (select EXTRACT(YEAR FROM riqi) AS year From record a where r.id = a.id) and
+            #{month} = (select EXTRACT(MONTH FROM riqi) AS month From record b where r.id = b.id)
     </select>
 
     <insert id="addRecord" parameterType="com.practice.management.bean.Record">
