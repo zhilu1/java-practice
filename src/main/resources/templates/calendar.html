@@ -4,8 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Account Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css" integrity="sha256-9w7XtQnqRDvThmsQHfLmXdDbGasYsSjF6FSXrDh7F6g=" crossorigin="anonymous" />
     <link rel="stylesheet" type="text/css" th:href="@{/Bootstrap/bootstrap/css/bootstrap.css}" />
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.js" integrity="sha256-ncetQ5WcFxZU3YIwggfwOwmewLVX4SHLBtDYnrsxooY=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.zh-CN.min.js" integrity="sha256-TWeu6bCkUfGPvdsbuXV9bNClNqZBR/WVdA6K8KFVSQA=" crossorigin="anonymous"></script>
     <script th:src="@{/Bootstrap/bootstrap/js/bootstrap.js}"></script>
 </head>
 <body>
@@ -13,32 +16,31 @@
 
 <div class="container">
 
-    <form class="form-horizontal" th:action="@{/authority/editUser}" th:object="${userForm}" method="post" >
+    <form class="form-horizontal" th:action="@{/authority/editUser}" method="post" >
         <fieldset>
             <div id="legend" class="">
 
 
-                <input id="startDay" type="text" class="form-control">
 
+                <div class="input-daterange input-group" id="datepicker">
+                    <input type="text" class="input-sm form-control" name="start" />
+                    <span class="input-group-addon">to</span>
+                    <input type="text" class="input-sm form-control" name="end" />
+                </div>
 
                 <label class="control-label"> 确认修改</label>
                 <!-- Button -->
                 <div class="controls">
                     <button class="btn btn-success">确认修改</button>
                 </div>
-
-
-
-
-
-
             </div>
         </fieldset>
     </form>
 </div>
 
 <script>
-    $('#startDay input').datepicker({
+    $('.input-daterange').datepicker({
+        format: "mm/dd/yyyy",
         todayBtn: true,
         language: "zh-CN",
         daysOfWeekHighlighted: "0,6",

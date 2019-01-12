@@ -20,6 +20,10 @@
                 </li>
 
                 <li sec:authorize="isAuthenticated()">
+                    <a th:href="@{/calendar/manage}"> 管理工作时间历</a>
+                </li>
+
+                <li sec:authorize="isAuthenticated()">
                     <a th:href="@{/index}"> 考勤记录 </a>
                 </li>
 
