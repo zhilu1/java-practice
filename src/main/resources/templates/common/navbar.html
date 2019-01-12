@@ -19,6 +19,10 @@
                     <a th:href="@{/role/getAllRoles}"> 管理角色 </a>
                 </li>
 
+                <li>
+                    <a th:href="@{/index}"> 考勤记录 </a>
+                </li>
+
                 <li sec:authorize="isAuthenticated()"> <!-- 用户权限为ROLE_ADMIN 显示 -->
                     <a th:href="@{/logout}">注销</a>
                 </li>

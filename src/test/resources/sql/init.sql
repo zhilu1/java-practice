@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS `Sys_User`;
+-- DROP TABLE IF EXISTS `Sys_User`;
 CREATE TABLE `Sys_User`(
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(200) NOT NULL,
@@ -9,7 +9,7 @@ CREATE TABLE `Sys_User`(
   UNIQUE (`username`)
 )CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-DROP TABLE IF EXISTS `record`;
+-- DROP TABLE IF EXISTS `record`;
 CREATE TABLE `record` (
   `id` int(30) NOT NULL AUTO_INCREMENT,
   `riqi` date NOT NULL,
