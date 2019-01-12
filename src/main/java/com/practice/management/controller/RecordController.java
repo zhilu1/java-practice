@@ -1,4 +1,4 @@
-package com.practice.management.Controller;
+package com.practice.management.controller;
 
 import com.practice.management.domain.Record;
 import com.practice.management.domain.Staff;

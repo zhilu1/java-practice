@@ -34,53 +34,65 @@ public class AuthorityController {
             return mv;
     }
 
-    @RequestMapping("/getUserInfoByName")
-    public ModelAndView getUserInfo(String username) {
-        ModelAndView mv = new ModelAndView();
-            mv.setViewName("userManage/editUser");
-            SysUser user = userService.getUserByUserName(username);
-            List<SysRole> roles = roleService.getAll();
-            UserForm userForm = userService.convertUserToForm(user);
-            mv.addObject("allRoles", roles);
-            mv.addObject("userForm",  userForm);
-            return mv;
-    }
-
     @RequestMapping("/registerUser")
     public ModelAndView registerUser(@ModelAttribute UserForm userForm) {
-        SysUser user = userService.convertFormToUser(userForm);
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("userManage/registerUser");
         try {
+            SysUser user = userService.convertFormToUser(userForm);
             userService.createUser(user);
         }
         catch (Exception e){
-            ModelAndView mv = new ModelAndView();
-            mv.setViewName("userManage/registerUser");
-            List<SysRole> roles = roleService.getAll();
-            mv.addObject("allRoles", roles);
-            mv.addObject("userForm", userForm);
-            mv.addObject("errorMsg", e.getMessage());
-            return mv;
+            return redirectAssist(userForm, mv, e.getMessage());
         }
         return  new ModelAndView("redirect:getAllUsers");
     }
+
 
     @RequestMapping(value="/addUser")
     public ModelAndView addUser() {
         ModelAndView mv = new ModelAndView();
-        mv.setViewName("userManage/registerUser");
-        List<SysRole> roles = roleService.getAll();
         UserForm userForm = new UserForm();
+        mv.setViewName("userManage/registerUser");
+        return redirectAssist(userForm, mv, "");
+    }
+
+
+    /*
+    * assist function for redirection to register User page
+    * */
+    private ModelAndView redirectAssist(UserForm userForm, ModelAndView mv, String errMsg){
+        List<SysRole> roles = roleService.getAll();
         mv.addObject("allRoles", roles);
         mv.addObject("userForm",  userForm);
-        mv.addObject("errorMsg", "");
+        mv.addObject("errorMsg", errMsg);
         return mv;
     }
 
+
+    @RequestMapping("/changeUserPage")
+    public ModelAndView changeUserPage(String username,  @RequestParam(value = "errMsg", defaultValue = "")String errMsg) {
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("userManage/editUser");
+        SysUser user = userService.getUserByUserName(username);
+        UserForm userForm = userService.convertUserToForm(user);
+        return redirectAssist(userForm, mv, "");
+    }
+
+
     @RequestMapping(value="/editUser")
     public ModelAndView editUser(@ModelAttribute UserForm userForm) {
-        SysUser sysUser = userService.convertFormToUser(userForm);
-        userService.updateUser(sysUser);
-        return  new ModelAndView("redirect:getAllUsers");
+        ModelAndView mv = new ModelAndView();
+        try {
+            SysUser sysUser = userService.convertFormToUser(userForm);
+            userService.updateUser(sysUser);
+            mv.setViewName("redirect:getAllUsers" );
+        }
+        catch (Exception e){
+            mv.setViewName("userManage/editUser");
+            return redirectAssist(userForm, mv, e.getMessage());
+        }
+        return mv;
     }
 
     @RequestMapping(value="/deleteUser")

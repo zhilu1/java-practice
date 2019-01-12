@@ -5,24 +5,43 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <body>
-<div>
-    <a href="/"target="leftFrame"> 首页</a>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" th:href="@{/}">考勤管理系统 名字既长且空</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse ">
+            <ul class="nav navbar-nav">
+                <li><a href="/"> 首页 </a></li>
+                <sec:authorize access="hasRole('ROLE_USEROP')">
+                    <li> <!-- 用户权限为ROLE_ADMIN 显示 -->
+                        <a href="/authority/getAllUsers"> 管理用户</a>
+                    </li>
+                </sec:authorize>
 
-    <sec:authorize access="hasRole('ROLE_USEROP')">
-        <a href="/authority/getAllUsers"target="leftFrame"> 管理用户</a>
-    </sec:authorize>
+                <sec:authorize access="hasRole('ROLE_ROLEOP')">
+                    <li>
+                        <a href="/role/getAllRoles" target="leftFrame"> 管理角色</a>
+                    </li>
+                </sec:authorize>
 
-    <sec:authorize access="hasRole('ROLE_ROLEOP')">
-        <a href="/role/getAllRoles"target="leftFrame"> 管理角色</a>
-    </sec:authorize>
+                <sec:authorize access="isAuthenticated()">
+                    <li>
+                        <a href="/index" target="leftFrame"> 考勤记录</a>
+                    </li>
+                </sec:authorize>
 
-    <a href="/index" target="leftFrame"> 考勤记录</a>
+                <sec:authorize access="isAuthenticated()">
+                    <li>
+                        <a href="/logout"target="leftFrame"> 注销</a>
+                    </li>
+                </sec:authorize>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
 
 
-    <a href="/logout"target="leftFrame"> 注销</a>
-
-    </ul>
-</div>
 <sec:authorize access="hasRole('ROLE_IMPORTOP')">
     <div>
         <form id="query" action="/selectRecordByIdAndDate" method="post" class="form-horizontal" style="text-align: center;">

@@ -21,7 +21,7 @@
             <div class="control-group">
 
                 <!-- Text input-->
-                <label class="control-label" for="name">用户名</label>
+                <label class="control-label" for="username">用户名</label>
                 <div class="controls">
                     <input type="text"  class="input-xlarge" th:field="*{username}">
                     <p class="help-block">请输入新的用户名</p>
@@ -63,7 +63,7 @@
                 <label class="control-label" for="password">密码</label>
                 <div class="controls">
                     <input type="password" placeholder="placeholder" class="input-xlarge" id="repassword" name="repassword">
-                    <p class="help-block">输入新的密码</p>
+                    <p class="help-block">确认密码</p>
                 </div>
             </div>
 
@@ -90,12 +90,11 @@
 
     </form>
     <div class="alert alert-danger alert-dismissible" role="alert" th:if=" ${errorMsg} ne ''">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <button type="submit" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <p th:text="${errorMsg}">
         </p>
     </div>
 </div>
-
 
 </body>
 

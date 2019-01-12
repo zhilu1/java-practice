@@ -19,7 +19,7 @@
                     <a th:href="@{/role/getAllRoles}"> 管理角色 </a>
                 </li>
 
-                <li>
+                <li sec:authorize="isAuthenticated()">
                     <a th:href="@{/index}"> 考勤记录 </a>
                 </li>
 
