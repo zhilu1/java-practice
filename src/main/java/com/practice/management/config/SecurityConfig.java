@@ -30,9 +30,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private MyAuthenticationFailureHandler myAuthenticationFailureHandler;
 
-    @Value("${spring.resources.static-locations}")
-    private String staticResLocation;
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
