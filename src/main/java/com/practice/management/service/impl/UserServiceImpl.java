@@ -63,9 +63,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean updateUser(SysUser user) {
         Preconditions.checkNotNull(user, "入参为空");
+        Preconditions.checkArgument(!StringUtil.isEmpty(user.getUsername()), "账户为空");
+        Preconditions.checkArgument(!StringUtil.isEmpty(user.getName()), "用户姓名为空");
+        Preconditions.checkArgument(!StringUtil.isEmpty(user.getPassword()), "用户密码为空");
+        Preconditions.checkArgument(!StringUtil.isEmpty(user.getDepartment()), "用户所属部门为空");
+        Preconditions.checkArgument(user.getRoles().size() >= 1, "用户至少需要一个角色");
         Preconditions.checkNotNull(userDao.getById(user.getId()), "用户id不存在");
         Preconditions.checkNotNull(userDao.getByUserName(user.getUsername()), "用户名不存在");
-        Preconditions.checkArgument(user.getRoles().size() >= 1, "用户至少需要一个角色");
 //        SysUser oldUser = userDao.getById(user.getId()); 复制非空
 
         if(userDao.updateUser(user) >= 0){
@@ -140,6 +144,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public SysUser convertFormToUser(UserForm form) {
+        Preconditions.checkArgument(form.getPassword().equals(form.getRepassword()),"两次密码不一致");
         List<SysRole> roles = new ArrayList<>();
         SysUser sysUser = new SysUser();
         for(Integer roleId: form.getRoleIds()){
