@@ -8,7 +8,7 @@
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" th:href="@{/}">考勤管理系统 名字既长且空</a>
+            <a class="navbar-brand" href="/">考勤管理系统 名字既长且空</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse ">
             <ul class="nav navbar-nav">
@@ -21,19 +21,19 @@
 
                 <sec:authorize access="hasRole('ROLE_ROLEOP')">
                     <li>
-                        <a href="/role/getAllRoles" target="leftFrame"> 管理角色</a>
+                        <a href="/role/getAllRoles"> 管理角色</a>
                     </li>
                 </sec:authorize>
 
                 <sec:authorize access="isAuthenticated()">
                     <li>
-                        <a href="/index" target="leftFrame"> 考勤记录</a>
+                        <a href="/index"> 考勤记录</a>
                     </li>
                 </sec:authorize>
 
                 <sec:authorize access="isAuthenticated()">
                     <li>
-                        <a href="/logout"target="leftFrame"> 注销</a>
+                        <a href="/logout"> 注销</a>
                     </li>
                 </sec:authorize>
             </ul>
@@ -42,7 +42,7 @@
 </nav>
 
 
-<sec:authorize access="hasRole('ROLE_IMPORTOP')">
+<sec:authorize access="hasRole('ROLE_SELECTOP')">
     <div>
         <form id="query" action="/selectRecordByIdAndDate" method="post" class="form-horizontal" style="text-align: center;">
 
@@ -87,7 +87,7 @@
     </div>
 </sec:authorize>
 
-<sec:authorize access="!hasRole('ROLE_IMPORTOP')">
+<sec:authorize access="!hasRole('ROLE_SELECTOP')">
     <div>
         <form id="query1" action="/selectRecordByDate" method="post" class="form-horizontal" style="text-align: center;">
 
