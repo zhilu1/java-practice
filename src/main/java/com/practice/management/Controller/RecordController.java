@@ -8,6 +8,8 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +42,19 @@ public class RecordController {
 
     @RequestMapping(value = "/selectRecordByIdAndDate")
     public String seclectedRecords(Model model1,String staffId,String year,String month){
+        Staff selectedStaff = staffService.selectById(staffId);
+        List<Record> records = recordService.selectByIdAndDate(staffId,year,month);
+        model1.addAttribute("selectedStaff",selectedStaff);
+        model1.addAttribute("record",records);
+        return "jsp/index";
+    }
+
+    @RequestMapping(value = "/selectRecordByDate")
+    public String seclectedRecords(Model model1,String year,String month){
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
+        String staffId = userDetails.getUsername();
         Staff selectedStaff = staffService.selectById(staffId);
         List<Record> records = recordService.selectByIdAndDate(staffId,year,month);
         model1.addAttribute("selectedStaff",selectedStaff);
