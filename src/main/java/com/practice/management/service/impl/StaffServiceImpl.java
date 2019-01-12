@@ -1,4 +1,4 @@
-package com.practice.management.service.Impl;
+package com.practice.management.service.impl;
 
 import com.practice.management.domain.Staff;
 import com.practice.management.dao.StaffMapper;
