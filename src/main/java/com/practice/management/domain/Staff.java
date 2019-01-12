@@ -1,4 +1,4 @@
-package com.practice.management.bean;
+package com.practice.management.domain;
 
 public class Staff {
     private String username;

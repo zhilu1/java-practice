@@ -1,6 +1,6 @@
-package com.practice.management.mapper;
+package com.practice.management.dao;
 
-import com.practice.management.bean.Record;
+import com.practice.management.domain.Record;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

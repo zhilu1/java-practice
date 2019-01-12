@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Account Management</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/Bootstrap/bootstrap/css/bootstrap.css}" />
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script th:src="@{/Bootstrap/bootstrap/js/bootstrap.js}"></script>
+</head>
+<body>
+<header th:replace="common/navbar :: header"></header>
+
+<div class="container">
+    <form class="form-horizontal" id="registerForm" th:action="@{/authority/registerUser}" th:object="${userForm}" method="post" >
+        <fieldset>
+            <div id="legend" class="">
+                <legend class="">新增用户</legend>
+            </div>
+
+            <div class="control-group">
+
+                <!-- Text input-->
+                <label class="control-label" for="name">用户名</label>
+                <div class="controls">
+                    <input type="text"  class="input-xlarge" th:field="*{username}">
+                    <p class="help-block">请输入新的用户名</p>
+                </div>
+            </div>
+
+            <div class="control-group">
+
+                <!-- Text input-->
+                <label class="control-label" for="name">名字</label>
+                <div class="controls">
+                    <input type="text"  class="input-xlarge" th:field="*{name}">
+                    <p class="help-block">请输入新的名字</p>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <!-- Text input-->
+                <label class="control-label" for="department">部门</label>
+                <div class="controls">
+                    <input type="text" placeholder="placeholder" class="input-xlarge" th:field="*{department}">
+                    <p class="help-block">请输入新的部门</p>
+                </div>
+            </div>
+
+            <div class="control-group">
+
+                <!-- Text input-->
+                <label class="control-label" for="password">密码</label>
+                <div class="controls">
+                    <input type="password" placeholder="placeholder" class="input-xlarge" id="password" name="password">
+                    <p class="help-block">输入新的密码</p>
+                </div>
+            </div>
+
+            <div class="control-group">
+
+                <!-- Text input-->
+                <label class="control-label" for="password">密码</label>
+                <div class="controls">
+                    <input type="password" placeholder="placeholder" class="input-xlarge" id="repassword" name="repassword">
+                    <p class="help-block">输入新的密码</p>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <!-- Select Multiple -->
+                <label class="control-label">角色选择</label>
+                <div class="controls">
+                    <select id="roles" class="input-xlarge" th:field="*{roleIds}" multiple="multiple" >
+                        <option th:each="role: ${allRoles}"
+                                th:value="${role.id}"
+                                th:text="${role.name}">
+                        </option>
+                    </select>
+                </div>
+            </div><div class="control-group">
+
+            <label class="control-label"> 确认新增</label>
+            <!-- Button -->
+            <div class="controls">
+                <button class="btn btn-success">确认新增</button>
+            </div>
+        </div>
+        </fieldset>
+
+    </form>
+    <div class="alert alert-danger alert-dismissible" role="alert" th:if=" ${errorMsg} ne ''">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <p th:text="${errorMsg}">
+        </p>
+    </div>
+</div>
+
+
+</body>
+
+</html>

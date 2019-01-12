@@ -1,6 +1,6 @@
 package com.practice.management.service;
 
-import com.practice.management.bean.Record;
+import com.practice.management.domain.Record;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta content="text/html;charset=UTF-8"/>
+    <title sec:authentication="name"></title>
+    <link rel="stylesheet" type="text/css" th:href="@{/Bootstrap/bootstrap/css/bootstrap.css}" />
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script th:src="@{/Bootstrap/bootstrap/js/bootstrap.js}"></script>
+    <style type="text/css">
+        body {
+            padding-top: 50px;
+        }
+        .starter-template {
+            padding: 40px 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header th:replace="common/navbar :: header"></header>
+
+    <div class="container">
+
+
+        <div class="starter-template">
+            <h1 th:text="${msg}"></h1>
+            Logged user: <span sec:authentication="name"/>
+
+            Roles: <span sec:authentication="principal.authorities">[ROLE_BUG, ROLE_TEMP]</span>
+            <div sec:authorize="hasAuthority('ROLE_HOME')"> <!-- 用户类型为ROLE_ADMIN 显示 -->
+                <p class="bg-info" th:text="${msg}">你好</p>
+            </div>
+            <div sec:authorize="hasRole('ROLE_ADMIN')"> <!-- 用户类型为ROLE_ADMIN 显示 -->
+                <p class="bg-info">恭喜您,您有 ROLE_ADMIN 权限 </p>
+            </div>
+            <div sec:authorize="hasRole('ROLE_USER')"> <!-- 用户类型为ROLE_USER 显示 -->
+                <p class="bg-info">恭喜您,您有 ROLE_USER 权限 </p>
+            </div>
+
+
+        </div>
+    </div>
+
+</body>
+</html>

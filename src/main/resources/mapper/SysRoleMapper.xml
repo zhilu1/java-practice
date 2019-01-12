@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.practice.management.dao.SysRoleMapper">
+
+
+    <select id="getById" parameterType="Integer" resultType="com.practice.management.domain.SysRole">
+        SELECT * FROM sys_role WHERE id=#{id};
+    </select>
+
+    <select id="getByUserId" parameterType="Integer" resultType="com.practice.management.domain.SysRole">
+        SELECT sr.* FROM sys_role sr , sys_role_user sru
+        WHERE sru.user_id=#{uid} and sr.id = sru.role_id;
+    </select>
+
+    <select id="getAll" resultType="com.practice.management.domain.SysRole">
+        SELECT * FROM sys_role;
+    </select>
+
+    <update id="updateRole" parameterType="com.practice.management.domain.SysRole">
+        UPDATE sys_role
+        SET  name = #{role.name,jdbcType=VARCHAR}
+        WHERE id = #{role.id,jdbcType=INTEGER}
+    </update>
+
+
+    <insert id="createRole" parameterType="com.practice.management.domain.SysRole">
+        <selectKey keyProperty="role.id" keyColumn="id" resultType="int">
+            select LAST_INSERT_ID() as id
+        </selectKey>
+    	insert into sys_role(name)
+    	values(#{role.name,jdbcType=VARCHAR})
+    </insert>
+
+    <delete id="deleteRoleById">
+        delete sys_role, sys_permission_role
+        from sys_role, sys_permission_role
+        where sys_role.id = #{id} and sys_permission_role.role_id = #{id}
+    </delete>
+
+    <insert id="addPermissionToRole">
+    	insert into sys_permission_role(role_id, permission_id)
+    	values(#{rid,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER})
+    </insert>
+
+    <delete id="clearPermissions">
+        delete from sys_permission_role
+        where role_id = #{rid,jdbcType=INTEGER}
+    </delete>
+
+    <delete id="removePermissionFromRole">
+        delete sys_permission_role from sys_permission_role
+        where role_id = #{rid,jdbcType=INTEGER} and permission_id = #{pid,jdbcType=INTEGER}
+    </delete>
+
+    <select id="getPermissionsById" resultType="com.practice.management.domain.SysPermission">
+        SELECT p.*
+        FROM sys_role r,sys_permission_role pr ,sys_permission p
+        WHERE r.id = #{roleId, jdbcType=INTEGER} AND r.id = pr.role_id AND p.id = pr.permission_id
+    </select>
+
+</mapper>

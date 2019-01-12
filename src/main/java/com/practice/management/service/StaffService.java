@@ -1,7 +1,6 @@
 package com.practice.management.service;
 
-import com.practice.management.bean.Staff;
-
+import com.practice.management.domain.Staff;
 
 public interface StaffService {
 

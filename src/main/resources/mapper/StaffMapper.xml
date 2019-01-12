@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.practice.management.mapper.StaffMapper">
-    <resultMap id="BaseResultMap" type="com.practice.management.bean.Staff">
+<mapper namespace="com.practice.management.dao.StaffMapper">
+    <resultMap id="BaseResultMap" type="com.practice.management.domain.Staff">
         <constructor>
             <arg column="username" javaType="java.lang.String" jdbcType="VARCHAR"/>
             <arg column="name" javaType="java.lang.String" jdbcType="VARCHAR" />
@@ -9,7 +9,7 @@
         </constructor>
     </resultMap>
 
-    <select id="selectById" resultType="com.practice.management.bean.Staff">
+    <select id="selectById" resultType="com.practice.management.domain.Staff">
         SELECT name,department,username
         FROM sys_user
         WHERE username = #{username}

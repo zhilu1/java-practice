@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.practice.management.mapper.RecordMapper">
-    <resultMap id="BaseResultMap" type="com.practice.management.bean.Record">
+<mapper namespace="com.practice.management.dao.RecordMapper">
+    <resultMap id="BaseResultMap" type="com.practice.management.domain.Record">
         <constructor>
-            <arg column="staff_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="staff_id" javaType="java.lang.String" jdbcType="VARCHAR"/>
             <arg column="riqi" javaType="java.util.Date" jdbcType="DATE" />
             <arg column="sbtime" javaType="java.lang.String" jdbcType="VARCHAR" />
             <arg column="xbtime" javaType="java.lang.String" jdbcType="VARCHAR" />
         </constructor>
     </resultMap>
 
-    <sql id="column_List">
-        riqi,staff_id,sbtime,xbtime
-    </sql>
 
     <select id="selectRecords" resultMap="BaseResultMap">
         SELECT
@@ -21,7 +18,7 @@
     </select>
 
 
-    <update id="updateByIdAndRiqi" parameterType="com.practice.management.bean.Record">
+    <update id="updateByIdAndRiqi" parameterType="com.practice.management.domain.Record">
         update record set sbtime=#{record.sbtime} ,xbtime=#{record.xbtime}
                         where staff_id = #{record.staffId} and riqi=#{record.riqi}
     </update>
@@ -38,7 +35,7 @@
             #{month} = (select EXTRACT(MONTH FROM riqi) AS month From record b where r.id = b.id)
     </select>
 
-    <insert id="addRecord" parameterType="com.practice.management.bean.Record">
+    <insert id="addRecord" parameterType="com.practice.management.domain.Record">
         insert into record
             (riqi,staff_id,sbtime,xbtime)
         values

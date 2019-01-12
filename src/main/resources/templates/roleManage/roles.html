@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Account Management</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/Bootstrap/bootstrap/css/bootstrap.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/manageUser.css}" />
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script th:src="@{/Bootstrap/bootstrap/js/bootstrap.js}"></script>
+
+</head>
+<body>
+<header th:replace="common/navbar :: header"></header>
+
+<div class="panel panel-default">
+    <!-- Default panel contents -->
+    <div class="panel-heading">角色管理</div>
+    <div class="panel-body">
+        <p>角色列表</p>
+    </div>
+
+    <!-- Table -->
+    <table class="table">
+        <tr>
+            <td>角色名</td>
+            <td>角色所有权限</td>
+            <td>修改</td>
+            <td>删除</td>
+        </tr>
+        <tr th:each="role: ${roles}">
+            <td th:text="${role.name}">未确认</td>
+            <td>
+                <ul th:attr="id='role-'+${role.id}">
+<!--use js to fetch permissions data-->
+                </ul>
+            </td>
+            <td><a th:href="@{/role/editRolePage(roleId=${role.id})}">修改</a></td>
+            <td><a th:href="@{/role/deleteRole(roleId=${role.id})}">删除</a></td>
+        </tr>
+    </table>
+    <div th:if=" ${errorMsg} ne ''">
+        <p th:text="${errorMsg}">
+        </p>
+    </div>
+</div>
+<div>
+    <a class="btn btn-danger add_btn" th:href="@{/role/addRole}">+</a>
+</div>
+
+
+<script th:src="@{/js/roles.js}"></script>
+
+<script th:inline="javascript">
+    let roles = [[${roles}]];
+    roles.forEach(role => {
+        generatePermissions(role.id);
+    })
+</script>
+</body>
+</html>

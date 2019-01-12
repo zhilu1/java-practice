@@ -1,4 +1,4 @@
-package com.practice.management.bean;
+package com.practice.management.domain;
 
 import java.io.Serializable;
 import java.util.Date;

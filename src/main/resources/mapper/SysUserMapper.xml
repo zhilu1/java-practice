@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.practice.management.dao.SysUserMapper">
+    <resultMap type="com.practice.management.domain.SysUser" id="userMap">
+        <id column="uid" property="id" />
+        <result column="uname" property="name" />
+        <result column="username" property="username" />
+        <result column="password" property="password" />
+        <result column="department" property="department" />
+        <!-- 一对多的关系 -->
+        <!-- property: 指的是集合属性的值, ofType：指的是集合中元素的类型 -->
+        <collection property="roles" ofType="com.practice.management.domain.SysRole" javaType="List">
+            <id column="rid" property="id" />
+            <result column="rname" property="name" />
+        </collection>
+    </resultMap>
+
+
+    <select id="getByUserName" parameterType="String" resultMap="userMap">
+        SELECT u.*, u.id uid, u.name uname, r.id rid, r.name rname
+        FROM sys_user u
+        LEFT JOIN sys_role_user sru ON sru.user_id = u.id
+        LEFT JOIN sys_role r        ON sru.role_id = r.id
+        WHERE u.username=#{username}
+</select>
+
+    <select id="getById" parameterType="Integer" resultMap="userMap">
+        SELECT u.*, u.id uid, u.name uname, r.id rid, r.name rname
+        FROM sys_user u
+        LEFT JOIN sys_role_user sru ON sru.user_id = u.id
+        LEFT JOIN sys_role r        ON sru.role_id = r.id
+        WHERE u.id=#{id}
+    </select>
+
+    <select id="getAll" resultMap="userMap">
+        SELECT u.*, u.id uid, u.name uname, r.id rid, r.name rname
+        FROM sys_user u
+        LEFT JOIN sys_role_user sru ON sru.user_id = u.id
+        LEFT JOIN sys_role r        ON sru.role_id = r.id
+    </select>
+
+    <update id="updateUser" parameterType="com.practice.management.domain.SysUser">
+        UPDATE sys_user u
+        SET  u.name = #{user.name,jdbcType=VARCHAR} , u.department = #{user.department,jdbcType=VARCHAR} , u.password = #{user.password,jdbcType=VARCHAR}
+        WHERE u.id = #{user.id,jdbcType=INTEGER}
+    </update>
+
+    <insert id="createUser" parameterType="com.practice.management.domain.SysUser">
+    	insert into sys_user(username,password,name,department)
+    	values(#{user.username,jdbcType=VARCHAR},#{user.password,jdbcType=VARCHAR},#{user.name,jdbcType=VARCHAR},
+    		#{user.department,jdbcType=VARCHAR})
+    </insert>
+
+    <delete id="deleteById" parameterType="Integer">
+        delete sys_user, sys_role_user
+        FROM sys_user
+        LEFT JOIN sys_role_user ON sys_role_user.user_id = sys_user.id
+        where sys_user.id = #{id}
+    </delete>
+
+    <insert id="addRoleToUser" parameterType="Integer">
+    	insert into sys_role_user(role_id, user_id)
+    	values(#{rid,jdbcType=INTEGER},#{uid,jdbcType=INTEGER})
+    </insert>
+
+    <delete id="removeRoleFromUser" parameterType="Integer">
+        delete sys_role_user from sys_role_user
+        where role_id = #{rid} and user_id = #{uid}
+    </delete>
+
+    <delete id="clearAllRolesOfUser">
+        delete from sys_role_user
+        where user_id = #{uid}
+    </delete>
+
+
+</mapper>
