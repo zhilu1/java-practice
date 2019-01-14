@@ -13,40 +13,115 @@
     <script th:src="@{/Bootstrap/bootstrap/js/bootstrap.js}"></script>
     <script th:src="@{/node_modules/bootstrap-year-calendar/js/bootstrap-year-calendar.js}"></script>
     <script th:src="@{/js/calendar.js}"></script>
-<script th:inline="javascript" async>
-    function onload() {
-        let data = [[${allDates}]];
-        init(data);
-    }
-</script>
+    <script th:inline="javascript" async>
+        function onload() {
+            let data = [[${allDates}]];
+            init(data);
+        }
+    </script>
+    <script src="../static/js/calendar.js"></script>
 </head>
 
 <body onload="onload()">
 <header th:replace="common/navbar :: header"></header>
 
+<!-- Modal -->
+<div class="modal fade" id="event-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <form class="form-horizontal" th:action="@{/calendar/edit}" method="post" >
+                <fieldset>
+
+                    <div class="modal-body">
+                        <div class="control-group">
+
+                            <!-- Text input-->
+                            <label class="control-label" for="status">状态</label>
+                            <div class="controls">
+                                <input type="text"  class="input-xlarge" name="status" value="0">
+                                <p class="help-block">请选择这些日期是否为工作日</p>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <!-- Text input-->
+                            <label class="control-label" for="startTime">上班时间</label>
+                            <div class="controls">
+                                <input type="time" class="input-xlarge" name="startTime">
+                                <p class="help-block">请输入这些日期内的规定上班时间</p>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+
+                            <!-- Text input-->
+                            <label class="control-label" for="endTime">下班时间</label>
+                            <div class="controls">
+                                <input type="time" class="input-xlarge"  name="endTime">
+                                <p class="help-block">请输入这些日期内的规定下班时间</p>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label" for="repassword">规定的日期范围</label>
+                            <div class="controls">
+                                <input type="text" class="input-xlarge" name="startDate" />
+                                <input type="text" class="input-xlarge" name="endDate" />
+                                <p class="help-block">选择日期范围</p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+
+                            <!-- Text input-->
+                            <label class="control-label" for="ignore">忽略选项</label>
+                            <div class="controls">
+                                忽略假期<input name="ignoHoliday" type="checkbox"/>
+                                忽略周末<input name="ignoWeekends" type="checkbox"/>
+                                <p class="help-block">选择忽略后指定日期将不受新更改的影响</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="controls">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button class="btn btn-primary" id="save-event" name="save-event">Save changes</button>
+                        </div>
+
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+
 <div class="container">
 
-    <form class="form-horizontal" th:action="@{/authority/editUser}" method="post" >
-        <fieldset>
             <div id="legend" class="">
-                <div id="calendar"> </div>
-
-                <div class="input-daterange input-group" id="datepicker">
-                    <input type="text" class="input-sm form-control" name="start" />
-                    <span class="input-group-addon">to</span>
-                    <input type="text" class="input-sm form-control" name="end" />
-                </div>
-
-
+            <div id="calendar"></div>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#event-modal">
+                    Launch demo modal
+                </button>
             </div>
-        </fieldset>
-    </form>
+
+            <div class="input-daterange input-group" id="datepicker">
+                <input type="text" class="input-sm form-control" name="start" />
+                <span class="input-group-addon">to</span>
+                <input type="text" class="input-sm form-control" name="end" />
+            </div>
+
+
+
 </div>
 
 <script>
 
     $('.input-daterange').datepicker({
-        format: "mm/dd/yyyy",
+        format: "yyyy-mm-dd",
         todayBtn: true,
         language: "zh-CN",
         daysOfWeekHighlighted: "0,6",

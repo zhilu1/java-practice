@@ -4,7 +4,7 @@
 
     <resultMap id="officeDateMap" type="com.practice.management.domain.OfficeDate">
         <id column="id" jdbcType="BIGINT" property="id" />
-        <result column="date" jdbcType="DATE" property="date" />
+        <result column="on_date" jdbcType="DATE" property="date" />
         <result column="start_time" jdbcType="TIME" property="startTime" />
         <result column="end_time" jdbcType="TIME" property="endTime" />
         <result column="status" jdbcType="TINYINT" property="status" />
@@ -16,4 +16,10 @@
         FROM office_time_calendar
     </select>
 
+
+    <insert id="createOfficeDate" parameterType="com.practice.management.domain.OfficeDate">
+    	insert into office_time_calendar(on_date, start_time, end_time, status)
+    	values(#{officeDate.date,jdbcType=DATE},#{officeDate.startTime,jdbcType=TIME},#{officeDate.endTime,jdbcType=TIME},
+    		#{officeDate.status,jdbcType=TINYINT})
+    </insert>
 </mapper>

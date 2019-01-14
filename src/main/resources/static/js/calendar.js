@@ -25,14 +25,15 @@ Date.prototype.Format = function(fmt)
 }
 
 function editEvent(event) {
-    $('#event-modal input[name="event-index"]').val(event ? event.id : '');
-    $('#event-modal input[name="event-status"]').val(event ? event.status : '');
-    $('#event-modal input[name="event-start-time"]').val(event ? event.startTime : '');
-    $('#event-modal input[name="event-end-time"]').val(event ? event.endTime : '');
-    $('#event-modal input[name="event-start-date"]').datepicker('update', event ? event.startDate : '');
-    $('#event-modal input[name="event-end-date"]').datepicker('update', event ? event.endDate : '');
-    $('#event-modal input[name="event-igno-holiday"]').val(event ? event.ignoHoliday : '');
-    $('#event-modal input[name="event-igno-weekends"]').val(event ? event.ignoWeekends : '');
+    console.log($('#event-modal'));
+    console.log(event);
+    $('#event-modal input[name="status"]').val(event ? event.status : '');
+    $('#event-modal input[name="startTime"]').val(event ? event.startTime : '');
+    $('#event-modal input[name="endTime"]').val(event ? event.endTime : '');
+    $('#event-modal input[name="startDate"]').datepicker('update', event ? event.startDate : '');
+    $('#event-modal input[name="endDate"]').datepicker('update', event ? event.endDate : '');
+    $('#event-modal input[name="ignoHoliday"]').val(event ? event.ignoHoliday : false);
+    $('#event-modal input[name="ignoWeekends"]').val(event ? event.ignoWeekends : false);
     $('#event-modal').modal();
 }
 
@@ -52,20 +53,20 @@ function deleteEvent(event) {
 function saveEvent() {
 
     var event = {
-        status: $('#event-modal input[name="event-status"]').val(),
-        startTime: $('#event-modal input[name="event-start-time"]').val(),
-        endTime: $('#event-modal input[name="event-end-time"]').val(),
-        startDate: $('#event-modal input[name="event-start-date"]').datepicker('getDate'),
-        endDate: $('#event-modal input[name="event-end-date"]').datepicker('getDate'),
-        ignoHoliday: $('#event-modal input[name="event-igno-holiday"]').checked ,
-        ignoWeekends: $('#event-modal input[name="event-igno-weekends"]').checked
+        status: $('#event-modal input[name="status"]').val(),
+        startTime: $('#event-modal input[name="startTime"]').val(),
+        endTime: $('#event-modal input[name="endTime"]').val(),
+        startDate: $('#event-modal input[name="startDate"]').datepicker('getDate'),
+        endDate: $('#event-modal input[name="endDate"]').datepicker('getDate'),
+        ignoHoliday: $('#event-modal input[name="ignoHoliday"]').checked ,
+        ignoWeekends: $('#event-modal input[name="ignoWeekends"]').checked
     };
-    let evStartD = Date(event.startDate);
-    let evEndD = Date(event.endDate);
+    let evStartD = new Date(event.startDate);
+    let evEndD = new Date(event.endDate);
 
     let dataSource = $('#calendar').data('calendar').getDataSource();
 
-    for (;evStartD.getTime() <= evEndD.getTime(); evStartD.setDate(evStartD.getTime() + 24 * 60 * 60 * 1000)) {
+    for (;evStartD <= evEndD; evStartD.setDate(evStartD.getTime() + 24 * 60 * 60 * 1000)) {
         // loop through once per day
         if(event.ignoWeekends && (evStartD.getDay() === 0 || evStartD.getDay() === 6 )){
             continue; // continue if weekends is ignored
@@ -82,7 +83,7 @@ function saveEvent() {
 
 
 
-    // $('#calendar').data('calendar').setDataSource(dataSource);
+    $('#calendar').data('calendar').setDataSource(dataSource);
     $('#event-modal').modal('hide');
 }
 
@@ -92,22 +93,12 @@ function init(data) {
     // var dayOffList = []; //day off list
     console.log(data);
     $('#calendar').calendar({
-        enableContextMenu: true,
         enableRangeSelection: true,
-        contextMenuItems:[
-            {
-                text: 'Update',
-                click: editEvent
-            },
-            {
-                text: 'Delete',
-                click: deleteEvent
-            }
-        ],
+
         customDayRenderer: function(element, date) {
             if(date.getDay() === 0 || date.getDay() === 6 ) {
                 $(element).css('font-weight', 'bold');
-                $(element).css('color', 'green');
+                $(element).css('color', '#66ccff');
             }
             // if(dateMap[date].status === 1) {
             //     $(element).css('background-color', 'red');
@@ -120,8 +111,9 @@ function init(data) {
         },
         mouseOnDay: function(e) {
             let officeDate = null;
-            for (let i = 0; i < data.length; i++){
-                officeDate = data[i];
+            let ds = $('#calendar').data('calendar').getDataSource()
+            for (let i = 0; i < ds.length; i++){
+                officeDate = ds[i];
                 let timeoffset = new Date().getTimezoneOffset();
                 let elemDate = new Date(e.date.getTime() - timeoffset * 1000 * 60);
 
@@ -150,9 +142,8 @@ function init(data) {
         mouseOutDay: function(e) {
             $(e.element).popover('hide');
         },
-        dayContextMenu: function(e) {
-            $(e.element).popover('hide');
-        },
+
+        dataSource: data
             // {
             //     status: 0,
             //     startTime: "09:00",
@@ -171,5 +162,5 @@ function init(data) {
     $('#save-event').click(function() {
         saveEvent();
     });
-};
+}
 

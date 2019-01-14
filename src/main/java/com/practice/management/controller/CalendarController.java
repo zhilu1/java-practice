@@ -40,7 +40,13 @@ public class CalendarController {
     @RequestMapping("/edit")
     public ModelAndView changeCalendarByDate(@ModelAttribute CalendarForm calendarForm) {
         ModelAndView mv = new ModelAndView();
-        mv.setViewName("calendar");
+        try {
+            List<OfficeDate> list = calendarService.convertFormIntoListDates(calendarForm);
+            calendarService.setOfficeDates(list);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        mv.setViewName("redirect:manage");
         return mv;
     }
 }
