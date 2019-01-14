@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.practice.management.dao.CalendarMapper">
+
+    <resultMap id="officeDateMap" type="com.practice.management.domain.OfficeDate">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="date" jdbcType="DATE" property="date" />
+        <result column="start_time" jdbcType="TIME" property="startTime" />
+        <result column="end_time" jdbcType="TIME" property="endTime" />
+        <result column="status" jdbcType="TINYINT" property="status" />
+    </resultMap>
+
+    <select id="selectAllOfficeDates" resultMap="officeDateMap">
+        SELECT
+            *
+        FROM office_time_calendar
+    </select>
+
+</mapper>

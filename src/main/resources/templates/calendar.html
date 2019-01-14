@@ -6,12 +6,22 @@
     <title>Account Management</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css" integrity="sha256-9w7XtQnqRDvThmsQHfLmXdDbGasYsSjF6FSXrDh7F6g=" crossorigin="anonymous" />
     <link rel="stylesheet" type="text/css" th:href="@{/Bootstrap/bootstrap/css/bootstrap.css}" />
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.js" integrity="sha256-ncetQ5WcFxZU3YIwggfwOwmewLVX4SHLBtDYnrsxooY=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.zh-CN.min.js" integrity="sha256-TWeu6bCkUfGPvdsbuXV9bNClNqZBR/WVdA6K8KFVSQA=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/node_modules/bootstrap-year-calendar/css/bootstrap-year-calendar.css}" />
+    <script th:src="@{/node_modules/jquery/dist/jquery.js}"></script>
+    <script th:src="@{/node_modules/bootstrap-datepicker/dist/js/bootstrap-datepicker.js}"></script>
+    <script th:src="@{/node_modules/bootstrap-datepicker/dist/locales/bootstrap-datepicker.zh-CN.min.js}"></script>
     <script th:src="@{/Bootstrap/bootstrap/js/bootstrap.js}"></script>
+    <script th:src="@{/node_modules/bootstrap-year-calendar/js/bootstrap-year-calendar.js}"></script>
+    <script th:src="@{/js/calendar.js}"></script>
+<script th:inline="javascript" async>
+    function onload() {
+        let data = [[${allDates}]];
+        init(data);
+    }
+</script>
 </head>
-<body>
+
+<body onload="onload()">
 <header th:replace="common/navbar :: header"></header>
 
 <div class="container">
@@ -19,8 +29,7 @@
     <form class="form-horizontal" th:action="@{/authority/editUser}" method="post" >
         <fieldset>
             <div id="legend" class="">
-
-
+                <div id="calendar"> </div>
 
                 <div class="input-daterange input-group" id="datepicker">
                     <input type="text" class="input-sm form-control" name="start" />
@@ -28,17 +37,14 @@
                     <input type="text" class="input-sm form-control" name="end" />
                 </div>
 
-                <label class="control-label"> 确认修改</label>
-                <!-- Button -->
-                <div class="controls">
-                    <button class="btn btn-success">确认修改</button>
-                </div>
+
             </div>
         </fieldset>
     </form>
 </div>
 
 <script>
+
     $('.input-daterange').datepicker({
         format: "mm/dd/yyyy",
         todayBtn: true,

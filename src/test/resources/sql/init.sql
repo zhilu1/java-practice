@@ -57,12 +57,12 @@ CREATE TABLE `Sys_permission_role`(
 
 DROP TABLE IF EXISTS `office_time_calendar`;
 CREATE TABLE `office_time_calendar` (
-  `id` bigint(20) NOT NULL,
-  `day` date NOT NULL,
-  `start_time` time DEFAULT NULL,
-  `end_time` time DEFAULT NULL,
-  `status` tinyint(4) NOT NULL,
-  PRIMARY KEY (`id`)
+`id` bigint(20) NOT NULL AUTO_INCREMENT,
+`date` date NOT NULL,
+`start_time` time DEFAULT NULL,
+`end_time` time DEFAULT NULL,
+`status` tinyint(4) NOT NULL,
+PRIMARY KEY (`id`)
 )CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 insert into SYS_USER (id,username, password, name, department) values (1,'101', 'admin', 'Oven', 'UNO');
