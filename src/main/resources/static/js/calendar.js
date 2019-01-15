@@ -98,7 +98,7 @@ function init(data) {
             for(let i = 0; i < data.length ; i ++){
                 if(data[i].date === date.Format("yyyy-MM-dd")){
                     if(data[i].status === 1){
-                        $(element).css('background-color', '#ff363a');
+                        $(element).css('background-color', '#88e08e');
                         $(element).css('color', 'white');
                     }
                     if(data[i].status === 0){

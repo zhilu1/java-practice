@@ -19,8 +19,8 @@
                     <a th:href="@{/role/getAllRoles}"> 管理角色 </a>
                 </li>
 
-                <li sec:authorize="isAuthenticated()">
-                    <a th:href="@{/calendar/manage}"> 管理工作时间历</a>
+                <li sec:authorize="hasRole('ROLE_CALENDARVW')">
+                    <a th:href="@{/calendar/manage}"> 工作时间历</a>
                 </li>
 
                 <li sec:authorize="isAuthenticated()">
