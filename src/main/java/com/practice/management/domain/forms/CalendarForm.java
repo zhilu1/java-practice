@@ -11,8 +11,8 @@ public class CalendarForm {
     private String startTime; // 上班时间
     private String endTime; // 下班时间
     private Integer status; // 日期类型
-    private Boolean ignoHoliday; // 节假日是否调整 （周末不属于节假日）
-    private Boolean ignoWeekends;// 周末是否调整
+    private Boolean ignoSetDays = false; // 已被设置的日期是否调整 （周末不属于节假日）
+    private Boolean ignoWeekends = false;// 周末是否调整
 
     public String getStartDate() {
         return startDate;
@@ -34,6 +34,14 @@ public class CalendarForm {
         return startTime;
     }
 
+    public Boolean getIgnoSetDays() {
+        return ignoSetDays;
+    }
+
+    public void setIgnoSetDays(Boolean ignoSetDays) {
+        this.ignoSetDays = ignoSetDays;
+    }
+
     public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
@@ -52,14 +60,6 @@ public class CalendarForm {
 
     public void setStatus(Integer status) {
         this.status = status;
-    }
-
-    public Boolean getIgnoHoliday() {
-        return ignoHoliday;
-    }
-
-    public void setIgnoHoliday(Boolean ignoHoliday) {
-        this.ignoHoliday = ignoHoliday;
     }
 
     public Boolean getIgnoWeekends() {

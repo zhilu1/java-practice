@@ -54,6 +54,17 @@ public class CalendarServiceImpl implements CalendarService {
 
         List<OfficeDate> res = new ArrayList<>();
         for(cal.setTime(start); start.compareTo(end) <= 0; ){
+            if (calendarForm.getIgnoWeekends() && (cal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY)) {
+                //ignore weekends
+                cal.add(Calendar.DATE, 1);
+                start = new Date(cal.getTime().getTime());
+                continue;
+            }
+            if(calendarForm.getIgnoSetDays() && calendarDao.getOfficeDateByDate(start) != null){
+                cal.add(Calendar.DATE, 1);
+                start = new Date(cal.getTime().getTime());
+                continue;
+            }
             //add date to list
             OfficeDate day = new OfficeDate();
             day.setDate(start);
@@ -70,7 +81,6 @@ public class CalendarServiceImpl implements CalendarService {
 
     @Override
     public void setOfficeDates(List<OfficeDate> list) {
-        //TODO ignore weekends options, don't overwrite options
         for (OfficeDate date: list) {
             //if the date already exist in dataase, overwrite it
             OfficeDate existedDate = calendarDao.getOfficeDateByDate(date.getDate());

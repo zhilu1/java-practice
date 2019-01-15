@@ -41,8 +41,12 @@
                             <!-- Text input-->
                             <label class="control-label" for="status">状态</label>
                             <div class="controls">
-                                <input type="text"  class="input-xlarge" name="status" value="0">
-                                <p class="help-block">请选择这些日期是否为工作日</p>
+                                <select id="status" class="input-xlarge" name="status" >
+                                    <option value="0"> 非工作日</option>
+                                    <option value="1"> 工作日</option>
+                                </select>
+                                <!--<input type="text"  class="input-xlarge" name="status" value="0">-->
+                                <!--<p class="help-block">请选择这些日期是否为工作日</p>-->
                             </div>
                         </div>
 
@@ -67,18 +71,21 @@
 
                         <div class="control-group">
                             <label class="control-label" for="repassword">规定的日期范围</label>
-                            <div class="controls">
-                                <input type="text" class="input-xlarge" name="startDate" />
-                                <input type="text" class="input-xlarge" name="endDate" />
+                            <div class="controls ">
+                                <div class="input-daterange input-group" data-provide="datepicker">
+                                    <input type="text" class="form-control" name="startDate" />
+                                    <span class="input-group-addon">to</span>
+                                    <input type="text" class="form-control" name="endDate" />
+                                </div>
                                 <p class="help-block">选择日期范围</p>
                             </div>
                         </div>
-                        <div class="control-group">
 
+                        <div class="control-group">
                             <!-- Text input-->
                             <label class="control-label" for="ignore">忽略选项</label>
                             <div class="controls">
-                                忽略假期<input name="ignoHoliday" type="checkbox"/>
+                                忽略已设定日期<input name="ignoSetDays" type="checkbox"/>
                                 忽略周末<input name="ignoWeekends" type="checkbox"/>
                                 <p class="help-block">选择忽略后指定日期将不受新更改的影响</p>
                             </div>
@@ -86,8 +93,8 @@
                     </div>
                     <div class="modal-footer">
                         <div class="controls">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button class="btn btn-primary" id="save-event" name="save-event">Save changes</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button class="btn btn-primary" id="save-event" name="save-event">保存</button>
                         </div>
 
                     </div>
@@ -101,34 +108,10 @@
 
             <div id="legend" class="">
             <div id="calendar"></div>
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#event-modal">
-                    Launch demo modal
-                </button>
             </div>
-
-            <div class="input-daterange input-group" id="datepicker">
-                <input type="text" class="input-sm form-control" name="start" />
-                <span class="input-group-addon">to</span>
-                <input type="text" class="input-sm form-control" name="end" />
-            </div>
-
-
 
 </div>
 
-<script>
-
-    $('.input-daterange').datepicker({
-        format: "yyyy-mm-dd",
-        todayBtn: true,
-        language: "zh-CN",
-        daysOfWeekHighlighted: "0,6",
-        autoclose: true,
-        todayHighlight: true
-    });
-
-</script>
 </body>
 
 </html>

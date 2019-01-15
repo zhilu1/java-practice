@@ -25,15 +25,10 @@ Date.prototype.Format = function(fmt)
 }
 
 function editEvent(event) {
-    console.log($('#event-modal'));
-    console.log(event);
-    $('#event-modal input[name="status"]').val(event ? event.status : '');
     $('#event-modal input[name="startTime"]').val(event ? event.startTime : '');
     $('#event-modal input[name="endTime"]').val(event ? event.endTime : '');
     $('#event-modal input[name="startDate"]').datepicker('update', event ? event.startDate : '');
     $('#event-modal input[name="endDate"]').datepicker('update', event ? event.endDate : '');
-    $('#event-modal input[name="ignoHoliday"]').val(event ? event.ignoHoliday : false);
-    $('#event-modal input[name="ignoWeekends"]').val(event ? event.ignoWeekends : false);
     $('#event-modal').modal();
 }
 
@@ -58,7 +53,7 @@ function saveEvent() {
         endTime: $('#event-modal input[name="endTime"]').val(),
         startDate: $('#event-modal input[name="startDate"]').datepicker('getDate'),
         endDate: $('#event-modal input[name="endDate"]').datepicker('getDate'),
-        ignoHoliday: $('#event-modal input[name="ignoHoliday"]').checked ,
+        ignoSetDays: $('#event-modal input[name="ignoSetDays"]').checked ,
         ignoWeekends: $('#event-modal input[name="ignoWeekends"]').checked
     };
     let evStartD = new Date(event.startDate);
@@ -103,7 +98,7 @@ function init(data) {
             for(let i = 0; i < data.length ; i ++){
                 if(data[i].date === date.Format("yyyy-MM-dd")){
                     if(data[i].status === 1){
-                        $(element).css('background-color', 'red');
+                        $(element).css('background-color', '#ff363a');
                         $(element).css('color', 'white');
                     }
                     if(data[i].status === 0){
@@ -132,10 +127,11 @@ function init(data) {
                     let content = '';
                     let startShown = officeDate.startTime === null ? "" : officeDate.startTime;
                     let endShown = officeDate.endTime === null ? "" : officeDate.endTime;
+                    let info = officeDate.status === 1 ? "工作日" : "非工作日";
                         content += '<div class="event-tooltip-content">'
-                            + '<div class="event-name">'+ "上班时间：  " + startShown+ '</div>'
-                            + '<div class="event-name">' + "下班时间：  " + endShown+ '</div>'
-                                + '<div class="event-location">' + officeDate.status + '</div>'
+                            + '<div>'+ "上班时间：  " + startShown+ '</div>'
+                            + '<div>' + "下班时间：  " + endShown+ '</div>'
+                                + '<div>' + info + '</div>'
                                 + '</div>';
 
                         $(e.element).popover({
