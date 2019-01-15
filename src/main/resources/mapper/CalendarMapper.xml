@@ -16,10 +16,24 @@
         FROM office_time_calendar
     </select>
 
+    <select id="getOfficeDateByDate" resultMap="officeDateMap">
+        SELECT
+            *
+        FROM office_time_calendar
+        WHERE on_date = #{onDate}
+    </select>
+
 
     <insert id="createOfficeDate" parameterType="com.practice.management.domain.OfficeDate">
     	insert into office_time_calendar(on_date, start_time, end_time, status)
     	values(#{officeDate.date,jdbcType=DATE},#{officeDate.startTime,jdbcType=TIME},#{officeDate.endTime,jdbcType=TIME},
     		#{officeDate.status,jdbcType=TINYINT})
     </insert>
+
+    <update id="updateOfficeDateById" parameterType="com.practice.management.domain.OfficeDate">
+        UPDATE office_time_calendar
+        SET  status = #{officeDate.status}, on_date = #{officeDate.date},
+             start_time = #{officeDate.startTime}, end_time = #{officeDate.endTime}
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
 </mapper>

@@ -38,7 +38,7 @@ public class CalendarServiceImpl implements CalendarService {
         if(calendarForm.getStatus() != 0){
             Preconditions.checkArgument(!StringUtil.isEmpty(calendarForm.getStartTime()), "开始时间不得为空");
             Preconditions.checkArgument(!StringUtil.isEmpty(calendarForm.getEndTime()), "结束时间不得为空");
-            SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm:ss");
+            SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm");
             //convert string to java.util.Date, then java.sql.Time
             startTime = new Time(timeFormat.parse(calendarForm.getStartTime()).getTime());
             endTime = new Time(timeFormat.parse(calendarForm.getEndTime()).getTime());
@@ -70,8 +70,16 @@ public class CalendarServiceImpl implements CalendarService {
 
     @Override
     public void setOfficeDates(List<OfficeDate> list) {
+        //TODO ignore weekends options, don't overwrite options
         for (OfficeDate date: list) {
-            calendarDao.createOfficeDate(date);
+            //if the date already exist in dataase, overwrite it
+            OfficeDate existedDate = calendarDao.getOfficeDateByDate(date.getDate());
+            if(existedDate != null){
+                calendarDao.updateOfficeDateById(date, existedDate.getId());
+            }
+            else{
+                calendarDao.createOfficeDate(date);
+            }
         }
     }
 }

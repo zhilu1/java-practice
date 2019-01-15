@@ -100,6 +100,17 @@ function init(data) {
                 $(element).css('font-weight', 'bold');
                 $(element).css('color', '#66ccff');
             }
+            for(let i = 0; i < data.length ; i ++){
+                if(data[i].date === date.Format("yyyy-MM-dd")){
+                    if(data[i].status === 1){
+                        $(element).css('background-color', 'red');
+                        $(element).css('color', 'white');
+                    }
+                    if(data[i].status === 0){
+                        $(element).css('color', 'grey');
+                    }
+                }
+            }
             // if(dateMap[date].status === 1) {
             //     $(element).css('background-color', 'red');
             //     $(element).css('color', 'white');
@@ -111,18 +122,19 @@ function init(data) {
         },
         mouseOnDay: function(e) {
             let officeDate = null;
-            let ds = $('#calendar').data('calendar').getDataSource()
+            let ds = $('#calendar').data('calendar').getDataSource();
             for (let i = 0; i < ds.length; i++){
                 officeDate = ds[i];
                 let timeoffset = new Date().getTimezoneOffset();
                 let elemDate = new Date(e.date.getTime() - timeoffset * 1000 * 60);
 
                 if(officeDate.date === elemDate.Format("yyyy-MM-dd")){
-                    var content = '';
-                    console.log(content);
+                    let content = '';
+                    let startShown = officeDate.startTime === null ? "" : officeDate.startTime;
+                    let endShown = officeDate.endTime === null ? "" : officeDate.endTime;
                         content += '<div class="event-tooltip-content">'
-                            + '<div class="event-name">'+ "上班时间：  " + officeDate.startTime+ '</div>'
-                            + '<div class="event-name">' + "下班时间：  " + officeDate.endTime+ '</div>'
+                            + '<div class="event-name">'+ "上班时间：  " + startShown+ '</div>'
+                            + '<div class="event-name">' + "下班时间：  " + endShown+ '</div>'
                                 + '<div class="event-location">' + officeDate.status + '</div>'
                                 + '</div>';
 
