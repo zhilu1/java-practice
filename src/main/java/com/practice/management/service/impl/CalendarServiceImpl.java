@@ -32,7 +32,13 @@ public class CalendarServiceImpl implements CalendarService {
 
     @Override
     public OfficeDate getByDate(Date date) {
-        return calendarDao.getOfficeDateByDate(date);
+        OfficeDate res = calendarDao.getOfficeDateByDate(date);
+        if(res == null){
+            res = new OfficeDate();
+            res.setDate(date);
+            res.setStatus(0);
+        }
+        return res;
     }
 
     @Override
