@@ -31,6 +31,16 @@ public class CalendarServiceImpl implements CalendarService {
     }
 
     @Override
+    public OfficeDate getByDate(Date date) {
+        return calendarDao.getOfficeDateByDate(date);
+    }
+
+    @Override
+    public List<OfficeDate> getByYearAndMonth(String year, String month) {
+        return calendarDao.selectByYearAndMonth(year,month);
+    }
+
+    @Override
     public List<OfficeDate> convertFormIntoListDates(CalendarForm calendarForm) throws ParseException {
         Preconditions.checkNotNull(calendarForm.getStatus(),"状态不得为空");
         Time startTime = null;

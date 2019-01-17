@@ -16,6 +16,13 @@
         FROM office_time_calendar
     </select>
 
+    <select id="selectByYearAndMonth" resultMap="officeDateMap">
+        SELECT *
+        FROM office_time_calendar otc
+        WHERE #{year} = (select EXTRACT(YEAR FROM on_date) AS year From office_time_calendar a where otc.id = a.id) and
+            #{month} = (select EXTRACT(MONTH FROM on_date) AS month From office_time_calendar b where otc.id = b.id)
+    </select>
+
     <select id="getOfficeDateByDate" resultMap="officeDateMap">
         SELECT
             *

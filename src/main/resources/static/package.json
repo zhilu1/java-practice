@@ -1,0 +1,16 @@
+{
+  "name": "static",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap-datepicker": "^1.8.0",
+    "bootstrap-year-calendar": "^1.1.1",
+    "popper.js": "^1.14.6"
+  }
+}
