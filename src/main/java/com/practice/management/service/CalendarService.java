@@ -13,8 +13,8 @@ public interface CalendarService {
     OfficeDate getByDate(Date date);
     // Year: yyyy, Month: MM
     List<OfficeDate> getByYearAndMonth(String year, String month);
-    List<OfficeDate> convertFormIntoListDates(CalendarForm calendarForm) throws ParseException;
 
+    List<OfficeDate> convertFormIntoListDates(CalendarForm calendarForm) throws ParseException;
     void setOfficeDates(List<OfficeDate> list);
 
 }

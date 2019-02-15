@@ -12,6 +12,8 @@ public interface RecordMapper {
 
     List<Record> selectRecords();
 
+    List<Record> selectById(String staffId);
+
     void addRecord(@Param("record")Record record);
 
     void updateByIdAndRiqi(@Param("record")Record record);
@@ -20,4 +22,9 @@ public interface RecordMapper {
 
     List<Record> selectByIdAndYearAndMonth(@Param("staffId")String staffId,@Param("year")String year,@Param("month")String month);
 
+    List<Record> selectByYearAndMonth(@Param("year")String year,@Param("month")String month);
+
+    void updateStatuByIdAndRiqi(@Param("record")Record record);
+
+    Record selectByIdAndDate(@Param("staffId")String staffId,@Param("riqi")Date riqi);
 }

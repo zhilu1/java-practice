@@ -7,6 +7,7 @@
             <arg column="riqi" javaType="java.util.Date" jdbcType="DATE" />
             <arg column="sbtime" javaType="java.lang.String" jdbcType="VARCHAR" />
             <arg column="xbtime" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="statu" javaType="java.lang.String" jdbcType="VARCHAR" />
         </constructor>
     </resultMap>
 
@@ -19,31 +20,54 @@
 
 
     <update id="updateByIdAndRiqi" parameterType="com.practice.management.domain.Record">
-        update record set sbtime=#{record.sbtime} ,xbtime=#{record.xbtime}
+        update record set sbtime=#{record.sbtime} ,xbtime=#{record.xbtime},statu=#{record.statu}
                         where staff_id = #{record.staffId} and riqi=#{record.riqi}
+    </update>
+
+    <update id="updateStatuByIdAndRiqi" parameterType="com.practice.management.domain.Record">
+        update record set statu=#{record.statu}
+        where staff_id = #{record.staffId} and riqi=#{record.riqi}
     </update>
 
     <select id="selectByIdAndRiqi" resultType="Integer">
         SELECT count(*) FROM record WHERE staff_id = #{staffId} and riqi=#{riqi}
     </select>
 
+    <select id="selectByIdAndDate" resultMap="BaseResultMap">
+        SELECT statu,staff_Id,riqi,sbtime,xbtime FROM record WHERE staff_id = #{staffId} and riqi=#{riqi}
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT sbtime,xbtime, riqi,staff_id,statu
+        FROM record
+        WHERE staff_id = #{staffId}
+    </select>
+
     <select id="selectByIdAndYearAndMonth" resultMap="BaseResultMap">
-        SELECT r.sbtime,r.xbtime, r.riqi,r.staff_id
+        SELECT r.sbtime,r.xbtime, r.riqi,r.staff_id,r.statu
         FROM record r
         WHERE r.staff_id = #{staffId} and
             #{year} = (select EXTRACT(YEAR FROM riqi) AS year From record a where r.id = a.id) and
             #{month} = (select EXTRACT(MONTH FROM riqi) AS month From record b where r.id = b.id)
     </select>
 
+    <select id="selectByYearAndMonth" resultMap="BaseResultMap">
+        SELECT r.sbtime,r.xbtime, r.riqi,r.staff_id,r.statu
+        FROM record r
+        WHERE #{year} = (select EXTRACT(YEAR FROM riqi) AS year From record a where r.id = a.id) and
+        #{month} = (select EXTRACT(MONTH FROM riqi) AS month From record b where r.id = b.id)
+    </select>
+
     <insert id="addRecord" parameterType="com.practice.management.domain.Record">
         insert into record
-            (riqi,staff_id,sbtime,xbtime)
+            (riqi,staff_id,sbtime,xbtime,statu)
         values
         (
             #{record.riqi},
             #{record.staffId},
             #{record.sbtime},
-            #{record.xbtime}
+            #{record.xbtime},
+            #{record.statu}
         )
     </insert>
 

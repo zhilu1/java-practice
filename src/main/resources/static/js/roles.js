@@ -42,6 +42,7 @@ function checkContainsId(list, item){
     }
     return false;
 }
+
 function changeRole(role) {
     let pms = document.getElementById("permissions");
     let name = document.getElementById("name");
@@ -58,8 +59,10 @@ function changeRole(role) {
     fetch("http://localhost:8080/role/changeRole",{
         method: 'POST',
         body: searchParams
-    }).then(res => {
+    }).then(function(res){
         return res.json();
+        // res => {
+        // return res.json();
 
     }).then(json =>{
         console.log(json);
@@ -76,6 +79,7 @@ function changeRole(role) {
     });
 
 }
+
 function registerRole() {
     let pms = document.getElementById("permissions");
     let name = document.getElementById("name");

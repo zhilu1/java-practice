@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>工作历</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css" integrity="sha256-9w7XtQnqRDvThmsQHfLmXdDbGasYsSjF6FSXrDh7F6g=" crossorigin="anonymous" />
+    <link rel="stylesheet" type="text/css" th:href="@{/node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/Bootstrap/bootstrap/css/bootstrap.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/node_modules/bootstrap-year-calendar/css/bootstrap-year-calendar.css}" />
     <script th:src="@{/node_modules/jquery/dist/jquery.js}"></script>
@@ -70,7 +70,7 @@
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label" for="repassword">规定的日期范围</label>
+                            <label class="control-label" >规定的日期范围</label>
                             <div class="controls ">
                                 <div class="input-daterange input-group" data-provide="datepicker">
                                     <input type="text" class="form-control" name="startDate" />

@@ -9,10 +9,18 @@
         </constructor>
     </resultMap>
 
+    <select id="selectStaffs" resultMap="BaseResultMap">
+        SELECT
+            *
+        FROM sys_user
+    </select>
+
     <select id="selectById" resultType="com.practice.management.domain.Staff">
         SELECT name,department,username
         FROM sys_user
         WHERE username = #{username}
     </select>
+
+
 
 </mapper>

@@ -86,7 +86,7 @@ function init(data) {
     var currentYear = new Date().getFullYear();
     // var dayOnList = []; // working days list
     // var dayOffList = []; //day off list
-    console.log(data);
+    // console.log(data);
     $('#calendar').calendar({
         enableRangeSelection: true,
 

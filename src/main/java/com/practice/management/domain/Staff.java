@@ -28,4 +28,10 @@ public class Staff {
     public void setDepartment(String department) {
         this.department = department;
     }
+
+    public Staff(String username, String name, String department) {
+        this.username = username;
+        this.name = name;
+        this.department = department;
+    }
 }
