@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.practice.management.dao.MonthMapper">
+    <resultMap id="BaseResultMap" type="com.practice.management.domain.MonthStatu">
+        <constructor>
+            <arg column="staff_id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="year" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="month" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="statu" javaType="java.lang.Integer" jdbcType="TINYINT" />
+        </constructor>
+    </resultMap>
+
+    <update id="updateStatu" parameterType="com.practice.management.domain.MonthStatu">
+        update sys_staff_month set statu=#{statu}
+        where staff_id = #{staffId} and month=#{month} and year=#{year}
+    </update>
+
+    <select id="selectByIdAndMonth" resultType="Integer">
+        SELECT count(*) FROM sys_staff_month WHERE staff_id = #{staffId} and month=#{month} and year=#{year}
+    </select>
+
+    <select id="selectMonth" resultMap="BaseResultMap">
+        SELECT staff_id,year,month,statu FROM sys_staff_month WHERE staff_id = #{staffId} and month=#{month} and year=#{year}
+    </select>
+
+    <select id="selectByMonth" resultMap="BaseResultMap">
+        SELECT staff_id,year,month,statu FROM sys_staff_month WHERE month=#{month}
+    </select>
+
+    <insert id="addStatu" parameterType="com.practice.management.domain.MonthStatu">
+        insert into sys_staff_month
+            (staff_id,year,month,statu)
+        values
+        (
+            #{staffId},
+            #{year},
+            #{month},
+            #{statu}
+        )
+    </insert>
+
+</mapper>
